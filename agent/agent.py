@@ -27,7 +27,7 @@ DB_PATH = os.path.join(DATA_DIR, 'agent.db')
 SCREEN_DIR = os.path.join(DATA_DIR, 'screenshots')
 LOG_PATH = os.path.join(DATA_DIR, 'agent.log')
 
-SERVER_BASE = os.environ.get('TRACKER_SERVER_BASE', 'http://localhost/TrackerV3')
+SERVER_BASE = os.environ.get('TRACKER_SERVER_BASE', 'http://localhost')
 INGEST_URL = f"{SERVER_BASE}/api/ingest.php"
 
 USERNAME = os.environ.get('USERNAME') or os.environ.get('USER') or 'unknown'
@@ -287,6 +287,15 @@ def sync_now():
             if isinstance(jr, dict) and jr.get('status') == 'ok':
                 mark_synced_and_cleanup(act_ids, shot_items)
                 log.info('Sync successful')
+                # Adjust loop timing based on server-provided interval if present
+                if 'sync_interval_seconds' in jr:
+                    try:
+                        interval = int(jr['sync_interval_seconds'])
+                        if interval >= 15:
+                            os.environ['TRACKER_SYNC_INTERVAL'] = str(interval)
+                            log.info('Server set sync interval to %s seconds', interval)
+                    except Exception:
+                        pass
             else:
                 log.warning('Sync failed: unexpected JSON response')
         else:
@@ -306,10 +315,14 @@ def main():
     log.info('Listeners started. USERNAME=%s MACHINE_ID=%s HOSTNAME=%s SERVER=%s', USERNAME, MACHINE_ID, HOSTNAME, SERVER_BASE)
 
     last_screenshot = time.time()
+    interval_env = os.environ.get('TRACKER_SYNC_INTERVAL')
+    loop_interval = int(interval_env) if (interval_env and interval_env.isdigit()) else 60
     while True:
         try:
-            # once per minute collect
-            time.sleep(60)
+            # collect based on configured interval (min 15s)
+            if loop_interval < 15:
+                loop_interval = 15
+            time.sleep(loop_interval)
             record = tracker.collect_minute()
             save_activity_local(record)
 

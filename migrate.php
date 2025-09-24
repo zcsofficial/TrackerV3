@@ -52,6 +52,17 @@ $queries = [
 		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
 		FOREIGN KEY (machine_id) REFERENCES machines(id) ON DELETE SET NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
+
+	"CREATE TABLE IF NOT EXISTS settings (
+		id INT AUTO_INCREMENT PRIMARY KEY,
+		`key` VARCHAR(100) NOT NULL UNIQUE,
+		`value` VARCHAR(255) NOT NULL,
+		updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
+
+	// seed defaults
+	"INSERT IGNORE INTO settings(`key`,`value`) VALUES ('productive_hours_per_day_seconds', '28800');",
+	"INSERT IGNORE INTO settings(`key`,`value`) VALUES ('agent_sync_interval_seconds', '60');",
 ];
 
 foreach ($queries as $sql) {

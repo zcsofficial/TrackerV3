@@ -122,3 +122,218 @@ h1 { font-size: 1.5em; font-weight: normal; background-color: #
 2025-09-24 21:13:29,117 | INFO | Marked synced: 1 activity, 0 screenshots
 2025-09-24 21:13:29,117 | INFO | Sync successful
 2025-09-24 21:13:49,875 | INFO | Interrupted by user. Exiting...
+2025-09-24 21:13:51,857 | DEBUG | Logging initialized. LOG_PATH=C:\xampp1\htdocs\TrackerV3\agent\data\agent.log VERBOSE=True
+2025-09-24 21:13:51,859 | INFO | Database initialized at C:\xampp1\htdocs\TrackerV3\agent\data\agent.db
+2025-09-24 21:13:51,859 | INFO | ActivityTracker initialized
+2025-09-24 21:13:51,866 | INFO | Listeners started. USERNAME=ADNAN-KS MACHINE_ID=MSI HOSTNAME=MSI SERVER=http://localhost/TrackerV3
+2025-09-24 21:14:51,869 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=413 keys=166
+2025-09-24 21:14:51,875 | DEBUG | Saved activity locally: 2025-09-24 15:43:51 -> 2025-09-24 15:44:51
+2025-09-24 21:14:51,877 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:14:51,877 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/TrackerV3/api/ingest.php
+2025-09-24 21:14:53,939 | DEBUG | Server response: 404 <!doctype html><html><head><title>404 Not Found</title><style>
+body { background-color: #fcfcfc; color: #333333; margin: 0; padding:0; }
+h1 { font-size: 1.5em; font-weight: normal; background-color: #
+2025-09-24 21:14:53,939 | WARNING | Sync failed: HTTP 404
+2025-09-24 21:15:53,941 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=271 keys=70
+2025-09-24 21:15:53,947 | DEBUG | Saved activity locally: 2025-09-24 15:44:53 -> 2025-09-24 15:45:53
+2025-09-24 21:15:53,949 | DEBUG | Loaded unsynced: 2 activity, 0 screenshots
+2025-09-24 21:15:53,949 | INFO | Syncing: 2 activity, 0 screenshots -> http://localhost/TrackerV3/api/ingest.php
+2025-09-24 21:15:55,972 | DEBUG | Server response: 404 <!doctype html><html><head><title>404 Not Found</title><style>
+body { background-color: #fcfcfc; color: #333333; margin: 0; padding:0; }
+h1 { font-size: 1.5em; font-weight: normal; background-color: #
+2025-09-24 21:15:55,972 | WARNING | Sync failed: HTTP 404
+2025-09-24 21:16:01,785 | INFO | Interrupted by user. Exiting...
+2025-09-24 21:16:04,759 | DEBUG | Logging initialized. LOG_PATH=C:\xampp1\htdocs\TrackerV3\agent\data\agent.log VERBOSE=True
+2025-09-24 21:16:04,760 | INFO | Database initialized at C:\xampp1\htdocs\TrackerV3\agent\data\agent.db
+2025-09-24 21:16:04,761 | INFO | ActivityTracker initialized
+2025-09-24 21:16:04,770 | INFO | Listeners started. USERNAME=ADNAN-KS MACHINE_ID=MSI HOSTNAME=MSI SERVER=http://localhost
+2025-09-24 21:17:04,773 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=1214 keys=8
+2025-09-24 21:17:04,779 | DEBUG | Saved activity locally: 2025-09-24 15:46:04 -> 2025-09-24 15:47:04
+2025-09-24 21:17:04,781 | DEBUG | Loaded unsynced: 3 activity, 0 screenshots
+2025-09-24 21:17:04,781 | INFO | Syncing: 3 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:17:06,872 | DEBUG | Server response: 200 
+
+{"status":"ok"}
+2025-09-24 21:17:06,876 | INFO | Cleanup done: deleted 3 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:17:06,876 | INFO | Sync successful
+2025-09-24 21:18:06,878 | INFO | Collected minute: prod=59 unprod=0 idle=1 mouse=1229 keys=55
+2025-09-24 21:18:06,893 | DEBUG | Saved activity locally: 2025-09-24 15:47:06 -> 2025-09-24 15:48:06
+2025-09-24 21:18:06,896 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:18:06,897 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:18:08,995 | DEBUG | Server response: 200 
+
+{"status":"ok"}
+2025-09-24 21:18:09,005 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:18:09,006 | INFO | Sync successful
+2025-09-24 21:19:09,008 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=1098 keys=32
+2025-09-24 21:19:09,014 | DEBUG | Saved activity locally: 2025-09-24 15:48:09 -> 2025-09-24 15:49:09
+2025-09-24 21:19:09,016 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:19:09,016 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:19:11,095 | DEBUG | Server response: 200 
+
+{"status":"ok"}
+2025-09-24 21:19:11,100 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:19:11,100 | INFO | Sync successful
+2025-09-24 21:20:11,101 | INFO | Collected minute: prod=22 unprod=0 idle=38 mouse=0 keys=102
+2025-09-24 21:20:11,114 | DEBUG | Saved activity locally: 2025-09-24 15:49:11 -> 2025-09-24 15:50:11
+2025-09-24 21:20:11,116 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:20:11,116 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:20:13,204 | DEBUG | Server response: 200 
+
+{"status":"ok"}
+2025-09-24 21:20:13,209 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:20:13,209 | INFO | Sync successful
+2025-09-24 21:21:13,211 | INFO | Collected minute: prod=0 unprod=0 idle=60 mouse=0 keys=0
+2025-09-24 21:21:13,217 | DEBUG | Saved activity locally: 2025-09-24 15:50:13 -> 2025-09-24 15:51:13
+2025-09-24 21:21:13,294 | INFO | Captured screenshot sc_20250924_155113.jpg (136 KB)
+2025-09-24 21:21:13,297 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-09-24 21:21:13,308 | INFO | Syncing: 1 activity, 1 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:21:15,372 | DEBUG | Server response: 200 
+
+{"status":"ok"}
+2025-09-24 21:21:15,378 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-09-24 21:21:15,378 | INFO | Sync successful
+2025-09-24 21:22:15,380 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=1187 keys=80
+2025-09-24 21:22:15,389 | DEBUG | Saved activity locally: 2025-09-24 15:51:15 -> 2025-09-24 15:52:15
+2025-09-24 21:22:15,390 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:22:15,390 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:22:17,483 | DEBUG | Server response: 200 
+
+{"status":"ok"}
+2025-09-24 21:22:17,487 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:22:17,487 | INFO | Sync successful
+2025-09-24 21:23:17,488 | INFO | Collected minute: prod=45 unprod=0 idle=15 mouse=32 keys=159
+2025-09-24 21:23:17,494 | DEBUG | Saved activity locally: 2025-09-24 15:52:17 -> 2025-09-24 15:53:17
+2025-09-24 21:23:17,495 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:23:17,496 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:23:19,555 | DEBUG | Server response: 200 
+
+{"status":"ok"}
+2025-09-24 21:23:19,559 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:23:19,559 | INFO | Sync successful
+2025-09-24 21:24:19,561 | INFO | Collected minute: prod=56 unprod=0 idle=4 mouse=804 keys=52
+2025-09-24 21:24:19,566 | DEBUG | Saved activity locally: 2025-09-24 15:53:19 -> 2025-09-24 15:54:19
+2025-09-24 21:24:19,569 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:24:19,569 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:24:21,641 | DEBUG | Server response: 200 
+
+{"status":"ok"}
+2025-09-24 21:24:21,646 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:24:21,646 | INFO | Sync successful
+2025-09-24 21:25:03,654 | INFO | Interrupted by user. Exiting...
+2025-09-24 21:25:04,867 | DEBUG | Logging initialized. LOG_PATH=C:\xampp1\htdocs\TrackerV3\agent\data\agent.log VERBOSE=True
+2025-09-24 21:25:04,869 | INFO | Database initialized at C:\xampp1\htdocs\TrackerV3\agent\data\agent.db
+2025-09-24 21:25:04,870 | INFO | ActivityTracker initialized
+2025-09-24 21:25:04,877 | INFO | Listeners started. USERNAME=ADNAN-KS MACHINE_ID=MSI HOSTNAME=MSI SERVER=http://localhost
+2025-09-24 21:26:04,879 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=955 keys=0
+2025-09-24 21:26:04,885 | DEBUG | Saved activity locally: 2025-09-24 15:55:04 -> 2025-09-24 15:56:04
+2025-09-24 21:26:04,887 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:26:04,887 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:26:06,948 | DEBUG | Server response: 200 
+
+{"status":"ok","sync_interval_seconds":60}
+2025-09-24 21:26:06,952 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:26:06,953 | INFO | Sync successful
+2025-09-24 21:26:06,953 | INFO | Server set sync interval to 60 seconds
+2025-09-24 21:27:06,955 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=388 keys=6
+2025-09-24 21:27:06,959 | DEBUG | Saved activity locally: 2025-09-24 15:56:06 -> 2025-09-24 15:57:06
+2025-09-24 21:27:06,961 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:27:06,961 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:27:09,051 | DEBUG | Server response: 200 
+
+{"status":"ok","sync_interval_seconds":60}
+2025-09-24 21:27:09,054 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:27:09,054 | INFO | Sync successful
+2025-09-24 21:27:09,054 | INFO | Server set sync interval to 60 seconds
+2025-09-24 21:28:09,056 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=0 keys=163
+2025-09-24 21:28:09,067 | DEBUG | Saved activity locally: 2025-09-24 15:57:09 -> 2025-09-24 15:58:09
+2025-09-24 21:28:09,068 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:28:09,068 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:28:11,178 | DEBUG | Server response: 200 
+
+{"status":"ok","sync_interval_seconds":60}
+2025-09-24 21:28:11,182 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:28:11,182 | INFO | Sync successful
+2025-09-24 21:28:11,182 | INFO | Server set sync interval to 60 seconds
+2025-09-24 21:29:11,183 | INFO | Collected minute: prod=57 unprod=0 idle=3 mouse=0 keys=209
+2025-09-24 21:29:11,194 | DEBUG | Saved activity locally: 2025-09-24 15:58:11 -> 2025-09-24 15:59:11
+2025-09-24 21:29:11,196 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:29:11,197 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:29:13,302 | DEBUG | Server response: 200 
+
+{"status":"ok","sync_interval_seconds":60}
+2025-09-24 21:29:13,306 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:29:13,306 | INFO | Sync successful
+2025-09-24 21:29:13,306 | INFO | Server set sync interval to 60 seconds
+2025-09-24 21:30:13,308 | INFO | Collected minute: prod=20 unprod=0 idle=40 mouse=373 keys=6
+2025-09-24 21:30:13,323 | DEBUG | Saved activity locally: 2025-09-24 15:59:13 -> 2025-09-24 16:00:13
+2025-09-24 21:30:13,391 | INFO | Captured screenshot sc_20250924_160013.jpg (124 KB)
+2025-09-24 21:30:13,393 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-09-24 21:30:13,401 | INFO | Syncing: 1 activity, 1 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:30:15,488 | DEBUG | Server response: 200 
+
+{"status":"ok","sync_interval_seconds":15}
+2025-09-24 21:30:15,492 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-09-24 21:30:15,492 | INFO | Sync successful
+2025-09-24 21:30:15,492 | INFO | Server set sync interval to 15 seconds
+2025-09-24 21:31:15,494 | INFO | Collected minute: prod=52 unprod=0 idle=8 mouse=388 keys=1
+2025-09-24 21:31:15,504 | DEBUG | Saved activity locally: 2025-09-24 16:00:15 -> 2025-09-24 16:01:15
+2025-09-24 21:31:15,507 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:31:15,508 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:31:17,623 | DEBUG | Server response: 200 
+
+{"status":"ok","sync_interval_seconds":15}
+2025-09-24 21:31:17,635 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:31:17,636 | INFO | Sync successful
+2025-09-24 21:31:17,637 | INFO | Server set sync interval to 15 seconds
+2025-09-24 21:32:17,639 | INFO | Collected minute: prod=0 unprod=0 idle=60 mouse=0 keys=0
+2025-09-24 21:32:17,659 | DEBUG | Saved activity locally: 2025-09-24 16:01:17 -> 2025-09-24 16:02:17
+2025-09-24 21:32:17,665 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:32:17,666 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:32:19,788 | DEBUG | Server response: 200 
+
+{"status":"ok","sync_interval_seconds":15}
+2025-09-24 21:32:19,794 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:32:19,795 | INFO | Sync successful
+2025-09-24 21:32:19,795 | INFO | Server set sync interval to 15 seconds
+2025-09-24 21:33:19,797 | INFO | Collected minute: prod=0 unprod=0 idle=60 mouse=0 keys=0
+2025-09-24 21:33:19,815 | DEBUG | Saved activity locally: 2025-09-24 16:02:19 -> 2025-09-24 16:03:19
+2025-09-24 21:33:19,821 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:33:19,822 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:33:21,916 | DEBUG | Server response: 200 
+
+{"status":"ok","sync_interval_seconds":15}
+2025-09-24 21:33:21,927 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:33:21,928 | INFO | Sync successful
+2025-09-24 21:33:21,929 | INFO | Server set sync interval to 15 seconds
+2025-09-24 21:34:21,931 | INFO | Collected minute: prod=0 unprod=0 idle=60 mouse=0 keys=0
+2025-09-24 21:34:21,951 | DEBUG | Saved activity locally: 2025-09-24 16:03:21 -> 2025-09-24 16:04:21
+2025-09-24 21:34:21,958 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:34:21,958 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:34:24,082 | DEBUG | Server response: 200 
+
+{"status":"ok","sync_interval_seconds":15}
+2025-09-24 21:34:24,091 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:34:24,092 | INFO | Sync successful
+2025-09-24 21:34:24,092 | INFO | Server set sync interval to 15 seconds
+2025-09-24 21:35:24,094 | INFO | Collected minute: prod=58 unprod=0 idle=2 mouse=156 keys=0
+2025-09-24 21:35:24,112 | DEBUG | Saved activity locally: 2025-09-24 16:04:24 -> 2025-09-24 16:05:24
+2025-09-24 21:35:24,167 | INFO | Captured screenshot sc_20250924_160524.jpg (79 KB)
+2025-09-24 21:35:24,170 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-09-24 21:35:24,181 | INFO | Syncing: 1 activity, 1 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:35:26,278 | DEBUG | Server response: 200 
+
+{"status":"ok","sync_interval_seconds":15}
+2025-09-24 21:35:26,283 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-09-24 21:35:26,284 | INFO | Sync successful
+2025-09-24 21:35:26,284 | INFO | Server set sync interval to 15 seconds
+2025-09-24 21:36:26,285 | INFO | Collected minute: prod=47 unprod=0 idle=13 mouse=84 keys=0
+2025-09-24 21:36:26,291 | DEBUG | Saved activity locally: 2025-09-24 16:05:26 -> 2025-09-24 16:06:26
+2025-09-24 21:36:26,293 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:36:26,293 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:36:28,365 | DEBUG | Server response: 200 
+
+{"status":"ok","sync_interval_seconds":15}
+2025-09-24 21:36:28,370 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-09-24 21:36:28,370 | INFO | Sync successful
+2025-09-24 21:36:28,370 | INFO | Server set sync interval to 15 seconds

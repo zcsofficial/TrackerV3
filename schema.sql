@@ -59,4 +59,15 @@ CREATE TABLE IF NOT EXISTS `screenshots` (
   CONSTRAINT `fk_screens_machine` FOREIGN KEY (`machine_id`) REFERENCES `machines`(`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- App settings
+CREATE TABLE IF NOT EXISTS `settings` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `key` VARCHAR(100) NOT NULL UNIQUE,
+  `value` VARCHAR(255) NOT NULL,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT IGNORE INTO `settings`(`key`,`value`) VALUES ('productive_hours_per_day_seconds', '28800');
+INSERT IGNORE INTO `settings`(`key`,`value`) VALUES ('agent_sync_interval_seconds', '60');
+
 

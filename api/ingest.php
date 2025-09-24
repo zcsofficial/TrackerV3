@@ -84,7 +84,7 @@ try {
 		}
 	}
 
-	$pdo->commit();
+    $pdo->commit();
 } catch (Throwable $e) {
 	$pdo->rollBack();
 	http_response_code(500);
@@ -92,6 +92,11 @@ try {
 	exit;
 }
 
-echo json_encode(['status' => 'ok']);
+// Return status + current server settings so agent can adapt (e.g., sync interval)
+$s = $pdo->prepare('SELECT `value` FROM settings WHERE `key` = ?');
+$s->execute(['agent_sync_interval_seconds']);
+$syncInterval = (int)($s->fetch()['value'] ?? 60);
+echo json_encode(['status' => 'ok', 'sync_interval_seconds' => $syncInterval]);
+
 
 
