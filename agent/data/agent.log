@@ -1,0 +1,124 @@
+2025-09-24 20:59:16,302 | DEBUG | Logging initialized. LOG_PATH=C:\xampp1\htdocs\TrackerV3\agent\data\agent.log VERBOSE=True
+2025-09-24 20:59:16,303 | INFO | Database initialized at C:\xampp1\htdocs\TrackerV3\agent\data\agent.db
+2025-09-24 20:59:16,303 | INFO | ActivityTracker initialized
+2025-09-24 20:59:16,318 | INFO | Listeners started. USERNAME=ADNAN-KS MACHINE_ID=MSI HOSTNAME=MSI SERVER=http://localhost/TrackerV3
+2025-09-24 21:00:16,321 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=729 keys=0
+2025-09-24 21:00:16,328 | DEBUG | Saved activity locally: 2025-09-24 15:29:16 -> 2025-09-24 15:30:16
+2025-09-24 21:00:16,333 | DEBUG | Loaded unsynced: 10 activity, 1 screenshots
+2025-09-24 21:00:16,334 | INFO | Syncing: 10 activity, 1 screenshots -> http://localhost/TrackerV3/api/ingest.php
+2025-09-24 21:00:18,419 | DEBUG | Server response: 404 <!doctype html><html><head><title>404 Not Found</title><style>
+body { background-color: #fcfcfc; color: #333333; margin: 0; padding:0; }
+h1 { font-size: 1.5em; font-weight: normal; background-color: #
+2025-09-24 21:00:18,419 | WARNING | Sync failed: HTTP 404
+2025-09-24 21:01:18,422 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=1930 keys=34
+2025-09-24 21:01:18,442 | DEBUG | Saved activity locally: 2025-09-24 15:30:18 -> 2025-09-24 15:31:18
+2025-09-24 21:01:18,444 | DEBUG | Loaded unsynced: 11 activity, 1 screenshots
+2025-09-24 21:01:18,446 | INFO | Syncing: 11 activity, 1 screenshots -> http://localhost/TrackerV3/api/ingest.php
+2025-09-24 21:01:20,513 | DEBUG | Server response: 404 <!doctype html><html><head><title>404 Not Found</title><style>
+body { background-color: #fcfcfc; color: #333333; margin: 0; padding:0; }
+h1 { font-size: 1.5em; font-weight: normal; background-color: #
+2025-09-24 21:01:20,513 | WARNING | Sync failed: HTTP 404
+2025-09-24 21:01:31,196 | INFO | Interrupted by user. Exiting...
+2025-09-24 21:01:32,943 | DEBUG | Logging initialized. LOG_PATH=C:\xampp1\htdocs\TrackerV3\agent\data\agent.log VERBOSE=True
+2025-09-24 21:01:32,945 | INFO | Database initialized at C:\xampp1\htdocs\TrackerV3\agent\data\agent.db
+2025-09-24 21:01:32,945 | INFO | ActivityTracker initialized
+2025-09-24 21:01:32,956 | INFO | Listeners started. USERNAME=ADNAN-KS MACHINE_ID=MSI HOSTNAME=MSI SERVER=http://localhost/
+2025-09-24 21:02:32,960 | INFO | Collected minute: prod=24 unprod=0 idle=36 mouse=661 keys=0
+2025-09-24 21:02:32,970 | DEBUG | Saved activity locally: 2025-09-24 15:31:32 -> 2025-09-24 15:32:32
+2025-09-24 21:02:32,975 | DEBUG | Loaded unsynced: 12 activity, 1 screenshots
+2025-09-24 21:02:32,977 | INFO | Syncing: 12 activity, 1 screenshots -> http://localhost//api/ingest.php
+2025-09-24 21:02:35,114 | DEBUG | Server response: 404 
+
+{"error":"User not found"}
+2025-09-24 21:02:35,114 | WARNING | Sync failed: HTTP 404
+2025-09-24 21:03:35,117 | INFO | Collected minute: prod=54 unprod=0 idle=6 mouse=1862 keys=0
+2025-09-24 21:03:35,142 | DEBUG | Saved activity locally: 2025-09-24 15:32:35 -> 2025-09-24 15:33:35
+2025-09-24 21:03:35,149 | DEBUG | Loaded unsynced: 13 activity, 1 screenshots
+2025-09-24 21:03:35,151 | INFO | Syncing: 13 activity, 1 screenshots -> http://localhost//api/ingest.php
+2025-09-24 21:03:37,225 | DEBUG | Server response: 404 
+
+{"error":"User not found"}
+2025-09-24 21:03:37,226 | WARNING | Sync failed: HTTP 404
+2025-09-24 21:04:37,229 | INFO | Collected minute: prod=27 unprod=0 idle=33 mouse=950 keys=6
+2025-09-24 21:04:37,241 | DEBUG | Saved activity locally: 2025-09-24 15:33:37 -> 2025-09-24 15:34:37
+2025-09-24 21:04:37,251 | DEBUG | Loaded unsynced: 14 activity, 1 screenshots
+2025-09-24 21:04:37,255 | INFO | Syncing: 14 activity, 1 screenshots -> http://localhost//api/ingest.php
+2025-09-24 21:04:39,352 | DEBUG | Server response: 404 
+
+{"error":"User not found"}
+2025-09-24 21:04:39,353 | WARNING | Sync failed: HTTP 404
+2025-09-24 21:05:09,744 | INFO | Interrupted by user. Exiting...
+2025-09-24 21:05:11,431 | DEBUG | Logging initialized. LOG_PATH=C:\xampp1\htdocs\TrackerV3\agent\data\agent.log VERBOSE=True
+2025-09-24 21:05:11,433 | INFO | Database initialized at C:\xampp1\htdocs\TrackerV3\agent\data\agent.db
+2025-09-24 21:05:11,433 | INFO | ActivityTracker initialized
+2025-09-24 21:05:11,457 | INFO | Listeners started. USERNAME=ADNAN-KS MACHINE_ID=MSI HOSTNAME=MSI SERVER=http://localhost
+2025-09-24 21:06:11,463 | INFO | Collected minute: prod=57 unprod=0 idle=3 mouse=1658 keys=92
+2025-09-24 21:06:11,493 | DEBUG | Saved activity locally: 2025-09-24 15:35:11 -> 2025-09-24 15:36:11
+2025-09-24 21:06:11,501 | DEBUG | Loaded unsynced: 15 activity, 1 screenshots
+2025-09-24 21:06:11,503 | INFO | Syncing: 15 activity, 1 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:06:13,617 | DEBUG | Server response: 404 
+
+{"error":"User not found"}
+2025-09-24 21:06:13,617 | WARNING | Sync failed: HTTP 404
+2025-09-24 21:07:13,619 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=1557 keys=153
+2025-09-24 21:07:13,626 | DEBUG | Saved activity locally: 2025-09-24 15:36:13 -> 2025-09-24 15:37:13
+2025-09-24 21:07:13,630 | DEBUG | Loaded unsynced: 16 activity, 1 screenshots
+2025-09-24 21:07:13,632 | INFO | Syncing: 16 activity, 1 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:07:15,758 | DEBUG | Server response: 404 
+
+{"error":"User not found"}
+2025-09-24 21:07:15,758 | WARNING | Sync failed: HTTP 404
+2025-09-24 21:08:15,761 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=0 keys=301
+2025-09-24 21:08:15,777 | DEBUG | Saved activity locally: 2025-09-24 15:37:15 -> 2025-09-24 15:38:15
+2025-09-24 21:08:15,785 | DEBUG | Loaded unsynced: 17 activity, 1 screenshots
+2025-09-24 21:08:15,787 | INFO | Syncing: 17 activity, 1 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:08:17,893 | DEBUG | Server response: 404 
+
+{"error":"User not found"}
+2025-09-24 21:08:17,893 | WARNING | Sync failed: HTTP 404
+2025-09-24 21:09:17,895 | INFO | Collected minute: prod=7 unprod=0 idle=53 mouse=207 keys=5
+2025-09-24 21:09:17,913 | DEBUG | Saved activity locally: 2025-09-24 15:38:17 -> 2025-09-24 15:39:17
+2025-09-24 21:09:17,918 | DEBUG | Loaded unsynced: 18 activity, 1 screenshots
+2025-09-24 21:09:17,919 | INFO | Syncing: 18 activity, 1 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:09:19,999 | DEBUG | Server response: 404 
+
+{"error":"User not found"}
+2025-09-24 21:09:19,999 | WARNING | Sync failed: HTTP 404
+2025-09-24 21:10:20,002 | INFO | Collected minute: prod=41 unprod=0 idle=19 mouse=108 keys=0
+2025-09-24 21:10:20,024 | DEBUG | Saved activity locally: 2025-09-24 15:39:20 -> 2025-09-24 15:40:20
+2025-09-24 21:10:20,274 | INFO | Captured screenshot sc_20250924_154020.jpg (133 KB)
+2025-09-24 21:10:20,282 | DEBUG | Loaded unsynced: 19 activity, 2 screenshots
+2025-09-24 21:10:20,330 | INFO | Syncing: 19 activity, 2 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:10:22,732 | DEBUG | Server response: 200 
+
+{"status":"ok"}
+2025-09-24 21:10:22,741 | INFO | Marked synced: 19 activity, 2 screenshots
+2025-09-24 21:10:22,742 | INFO | Sync successful
+2025-09-24 21:11:22,745 | INFO | Collected minute: prod=57 unprod=0 idle=3 mouse=354 keys=4
+2025-09-24 21:11:22,752 | DEBUG | Saved activity locally: 2025-09-24 15:40:22 -> 2025-09-24 15:41:22
+2025-09-24 21:11:22,755 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:11:22,755 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:11:24,849 | DEBUG | Server response: 200 
+
+{"status":"ok"}
+2025-09-24 21:11:24,859 | INFO | Marked synced: 1 activity, 0 screenshots
+2025-09-24 21:11:24,860 | INFO | Sync successful
+2025-09-24 21:12:24,862 | INFO | Collected minute: prod=44 unprod=0 idle=16 mouse=98 keys=167
+2025-09-24 21:12:24,873 | DEBUG | Saved activity locally: 2025-09-24 15:41:24 -> 2025-09-24 15:42:24
+2025-09-24 21:12:24,875 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:12:24,875 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:12:26,943 | DEBUG | Server response: 200 
+
+{"status":"ok"}
+2025-09-24 21:12:26,948 | INFO | Marked synced: 1 activity, 0 screenshots
+2025-09-24 21:12:26,948 | INFO | Sync successful
+2025-09-24 21:13:26,950 | INFO | Collected minute: prod=59 unprod=0 idle=1 mouse=229 keys=2
+2025-09-24 21:13:26,958 | DEBUG | Saved activity locally: 2025-09-24 15:42:26 -> 2025-09-24 15:43:26
+2025-09-24 21:13:26,968 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-09-24 21:13:26,968 | INFO | Syncing: 1 activity, 0 screenshots -> http://localhost/api/ingest.php
+2025-09-24 21:13:29,105 | DEBUG | Server response: 200 
+
+{"status":"ok"}
+2025-09-24 21:13:29,117 | INFO | Marked synced: 1 activity, 0 screenshots
+2025-09-24 21:13:29,117 | INFO | Sync successful
+2025-09-24 21:13:49,875 | INFO | Interrupted by user. Exiting...
