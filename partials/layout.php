@@ -28,6 +28,7 @@ function render_layout(string $pageTitle, callable $contentRenderer): void {
 				<li><a href="<?php echo BASE_URL; ?>users.php" class="nav-link text-white"><i class="bi bi-people me-2"></i>Users</a></li>
 				<li><a href="<?php echo BASE_URL; ?>agents.php" class="nav-link text-white"><i class="bi bi-pc-display me-2"></i>Agents</a></li>
 				<?php if ($role === 'superadmin' || $role === 'admin'): ?>
+				<li><a href="<?php echo BASE_URL; ?>devices.php" class="nav-link text-white"><i class="bi bi-usb-drive me-2"></i>Devices</a></li>
 				<li><a href="<?php echo BASE_URL; ?>settings.php" class="nav-link text-white"><i class="bi bi-gear me-2"></i>Settings</a></li>
 				<?php endif; ?>
 			</ul>

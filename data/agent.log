@@ -1,0 +1,69 @@
+2025-10-29 16:19:25,515 | DEBUG | Logging initialized. LOG_PATH=C:\xampp\htdocs\TrackerV3\data\agent.log VERBOSE=True
+2025-10-29 16:19:25,528 | INFO | Database initialized at C:\xampp\htdocs\TrackerV3\data\agent.db
+2025-10-29 16:19:25,528 | INFO | ActivityTracker initialized
+2025-10-29 16:19:25,533 | INFO | Listeners started. USERNAME=AdnanKakkattil MACHINE_ID=GRIT-CLT-LT-246 HOSTNAME=GRIT-CLT-LT-246 SERVER=http://localhost:8080
+2025-10-29 16:20:25,536 | INFO | Collected minute: prod=35 unprod=0 idle=25 mouse=158 keys=0
+2025-10-29 16:20:25,550 | DEBUG | Saved activity locally: 2025-10-29 10:49:25 -> 2025-10-29 10:50:25
+2025-10-29 16:20:25,551 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-10-29 16:20:25,552 | DEBUG | Syncing chunk: 1 activity, 0 screenshots
+2025-10-29 16:20:25,569 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-10-29 16:20:25,569 | INFO | Sync successful: 1 activity, 0 screenshots
+2025-10-29 16:21:25,571 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=519 keys=0
+2025-10-29 16:21:25,595 | DEBUG | Saved activity locally: 2025-10-29 10:50:25 -> 2025-10-29 10:51:25
+2025-10-29 16:21:25,597 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-10-29 16:21:25,597 | DEBUG | Syncing chunk: 1 activity, 0 screenshots
+2025-10-29 16:21:25,650 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-10-29 16:21:25,650 | INFO | Sync successful: 1 activity, 0 screenshots
+2025-10-29 16:22:25,651 | INFO | Collected minute: prod=42 unprod=0 idle=18 mouse=1573 keys=6
+2025-10-29 16:22:25,666 | DEBUG | Saved activity locally: 2025-10-29 10:51:25 -> 2025-10-29 10:52:25
+2025-10-29 16:22:25,667 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-10-29 16:22:25,667 | DEBUG | Syncing chunk: 1 activity, 0 screenshots
+2025-10-29 16:22:25,719 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-10-29 16:22:25,719 | INFO | Sync successful: 1 activity, 0 screenshots
+2025-10-29 16:22:49,883 | INFO | Interrupted by user. Exiting...
+2025-10-29 16:27:12,145 | DEBUG | Logging initialized. LOG_PATH=C:\xampp\htdocs\TrackerV3\data\agent.log VERBOSE=True
+2025-10-29 16:27:12,146 | INFO | Database initialized at C:\xampp\htdocs\TrackerV3\data\agent.db
+2025-10-29 16:27:12,146 | INFO | ActivityTracker initialized
+2025-10-29 16:27:12,150 | INFO | Listeners started. USERNAME=AdnanKakkattil MACHINE_ID=GRIT-CLT-LT-246 HOSTNAME=GRIT-CLT-LT-246 SERVER=http://localhost:8080
+2025-10-29 16:27:35,128 | INFO | Interrupted by user. Exiting...
+2025-10-29 16:27:38,839 | DEBUG | Logging initialized. LOG_PATH=C:\xampp\htdocs\TrackerV3\data\agent.log VERBOSE=True
+2025-10-29 16:27:38,839 | INFO | Database initialized at C:\xampp\htdocs\TrackerV3\data\agent.db
+2025-10-29 16:27:38,840 | INFO | ActivityTracker initialized
+2025-10-29 16:27:38,843 | INFO | Listeners started. USERNAME=AdnanKakkattil MACHINE_ID=GRIT-CLT-LT-246 HOSTNAME=GRIT-CLT-LT-246 SERVER=http://localhost:8080
+2025-10-29 16:28:38,844 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=1656 keys=3
+2025-10-29 16:28:38,855 | DEBUG | Saved activity locally: 2025-10-29 10:57:38 -> 2025-10-29 10:58:38
+2025-10-29 16:28:38,858 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-10-29 16:28:38,858 | DEBUG | Syncing chunk: 1 activity, 0 screenshots
+2025-10-29 16:28:38,890 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-10-29 16:28:38,890 | INFO | Sync successful: 1 activity, 0 screenshots
+2025-10-29 16:29:38,891 | INFO | Collected minute: prod=46 unprod=0 idle=14 mouse=1033 keys=0
+2025-10-29 16:29:38,903 | DEBUG | Saved activity locally: 2025-10-29 10:58:38 -> 2025-10-29 10:59:38
+2025-10-29 16:29:38,904 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-10-29 16:29:38,904 | DEBUG | Syncing chunk: 1 activity, 0 screenshots
+2025-10-29 16:29:38,941 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-10-29 16:29:38,941 | INFO | Sync successful: 1 activity, 0 screenshots
+2025-10-29 16:30:38,942 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=1598 keys=18
+2025-10-29 16:30:38,953 | DEBUG | Saved activity locally: 2025-10-29 10:59:38 -> 2025-10-29 11:00:38
+2025-10-29 16:30:38,954 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-10-29 16:30:38,955 | DEBUG | Syncing chunk: 1 activity, 0 screenshots
+2025-10-29 16:30:39,005 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-10-29 16:30:39,005 | INFO | Sync successful: 1 activity, 0 screenshots
+2025-10-29 16:31:39,006 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=121 keys=202
+2025-10-29 16:31:39,022 | DEBUG | Saved activity locally: 2025-10-29 11:00:39 -> 2025-10-29 11:01:39
+2025-10-29 16:31:39,024 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-10-29 16:31:39,024 | DEBUG | Syncing chunk: 1 activity, 0 screenshots
+2025-10-29 16:31:39,045 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-10-29 16:31:39,045 | INFO | Sync successful: 1 activity, 0 screenshots
+2025-10-29 16:32:39,046 | INFO | Collected minute: prod=59 unprod=0 idle=1 mouse=0 keys=286
+2025-10-29 16:32:39,060 | DEBUG | Saved activity locally: 2025-10-29 11:01:39 -> 2025-10-29 11:02:39
+2025-10-29 16:32:39,169 | INFO | Captured screenshot sc_20251029_110239.jpg (344 KB)
+2025-10-29 16:32:39,171 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:32:39,184 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:32:39,228 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:32:39,229 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:33:39,230 | INFO | Collected minute: prod=59 unprod=0 idle=1 mouse=1531 keys=46
+2025-10-29 16:33:39,242 | DEBUG | Saved activity locally: 2025-10-29 11:02:39 -> 2025-10-29 11:03:39
+2025-10-29 16:33:39,245 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-10-29 16:33:39,245 | DEBUG | Syncing chunk: 1 activity, 0 screenshots
+2025-10-29 16:33:39,261 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-10-29 16:33:39,261 | INFO | Sync successful: 1 activity, 0 screenshots

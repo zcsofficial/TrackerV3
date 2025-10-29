@@ -92,9 +92,9 @@ try {
 	exit;
 }
 
-// Return status + current server settings so agent can adapt (e.g., sync interval, parallel workers, screenshot deletion)
-$s = $pdo->prepare('SELECT `key`, `value` FROM settings WHERE `key` IN (?, ?, ?)');
-$s->execute(['agent_sync_interval_seconds', 'parallel_sync_workers', 'delete_screenshots_after_sync']);
+// Return status + current server settings so agent can adapt
+$s = $pdo->prepare('SELECT `key`, `value` FROM settings WHERE `key` IN (?, ?, ?, ?, ?, ?)');
+$s->execute(['agent_sync_interval_seconds', 'parallel_sync_workers', 'delete_screenshots_after_sync', 'device_monitoring_enabled', 'screenshots_enabled', 'screenshot_interval_seconds']);
 $settings = [];
 foreach ($s->fetchAll() as $row) {
     $settings[$row['key']] = $row['value'];
@@ -102,11 +102,33 @@ foreach ($s->fetchAll() as $row) {
 $syncInterval = (int)($settings['agent_sync_interval_seconds'] ?? 60);
 $parallelWorkers = (int)($settings['parallel_sync_workers'] ?? 1);
 $deleteScreenshots = (int)($settings['delete_screenshots_after_sync'] ?? 1);
+$deviceMonitoring = (int)($settings['device_monitoring_enabled'] ?? 0);
+$screenshotsEnabled = (int)($settings['screenshots_enabled'] ?? 1);
+$screenshotInterval = (int)($settings['screenshot_interval_seconds'] ?? 300);
+
+// Check if device monitoring is enabled for this specific machine
+$deviceMonitoringEnabled = 0;
+if ($deviceMonitoring) {
+    $monStmt = $pdo->prepare('SELECT enabled FROM device_monitoring WHERE machine_id = ?');
+    $monStmt->execute([$machineId]);
+    $monResult = $monStmt->fetch();
+    if ($monResult) {
+        $deviceMonitoringEnabled = (int)$monResult['enabled'];
+    } else {
+        // Create default entry (disabled by default)
+        $insMon = $pdo->prepare('INSERT INTO device_monitoring (machine_id, enabled) VALUES (?, 0)');
+        $insMon->execute([$machineId]);
+    }
+}
+
 echo json_encode([
     'status' => 'ok',
     'sync_interval_seconds' => $syncInterval,
     'parallel_sync_workers' => $parallelWorkers,
-    'delete_screenshots_after_sync' => (bool)$deleteScreenshots
+    'delete_screenshots_after_sync' => (bool)$deleteScreenshots,
+    'device_monitoring_enabled' => (bool)$deviceMonitoringEnabled,
+    'screenshots_enabled' => (bool)$screenshotsEnabled,
+    'screenshot_interval_seconds' => $screenshotInterval
 ]);
 
 

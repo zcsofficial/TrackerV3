@@ -36,10 +36,9 @@ try:
     from config import update_from_server_response
     import monitoring
     import permission
-except ImportError as e:
+except ImportError:
     # Fallback for standalone execution
-    print(f"Error: Could not import modules: {e}")
-    print("Make sure config.py, monitoring.py, and permission.py exist in the agent directory.")
+    print("Error: Could not import modules. Make sure config.py, monitoring.py, and permission.py exist in the agent directory.")
     sys.exit(1)
 
 VERBOSE = os.environ.get('TRACKER_VERBOSE', '1') not in ('0', 'false', 'False')
@@ -399,10 +398,6 @@ def main():
     interval_env = os.environ.get('TRACKER_SYNC_INTERVAL')
     loop_interval = int(interval_env) if (interval_env and interval_env.isdigit()) else 60
     
-    # Get screenshot settings from config
-    from config import is_screenshots_enabled, get_screenshot_interval
-    screenshot_interval = get_screenshot_interval()
-    
     while True:
         try:
             if loop_interval < 15:
@@ -413,13 +408,10 @@ def main():
             record = tracker.collect_minute()
             save_activity_local(record)
 
-            # Take screenshot if enabled and interval elapsed
-            if is_screenshots_enabled():
-                # Update screenshot interval from environment (may have been updated by server)
-                screenshot_interval = get_screenshot_interval()
-                if time.time() - last_screenshot >= screenshot_interval:
-                    capture_screenshot()
-                    last_screenshot = time.time()
+            # Take screenshot every 5 minutes
+            if time.time() - last_screenshot >= 300:
+                capture_screenshot()
+                last_screenshot = time.time()
 
             # Device monitoring (scans periodically)
             if time.time() - last_device_scan >= 30:  # Scan every 30 seconds

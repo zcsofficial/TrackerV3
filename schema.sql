@@ -131,6 +131,8 @@ INSERT IGNORE INTO `settings`(`key`,`value`) VALUES ('parallel_sync_workers', '1
 INSERT IGNORE INTO `settings`(`key`,`value`) VALUES ('delete_screenshots_after_sync', '1');
 INSERT IGNORE INTO `settings`(`key`,`value`) VALUES ('agent_install_path', '');
 INSERT IGNORE INTO `settings`(`key`,`value`) VALUES ('device_monitoring_enabled', '0');
+INSERT IGNORE INTO `settings`(`key`,`value`) VALUES ('screenshots_enabled', '1');
+INSERT IGNORE INTO `settings`(`key`,`value`) VALUES ('screenshot_interval_seconds', '300');
 
 -- Migration commands for existing databases:
 -- Run these if you already have a database and need to add the new columns:

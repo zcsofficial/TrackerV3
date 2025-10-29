@@ -11,7 +11,7 @@ if ($user['role'] !== 'superadmin' && $user['role'] !== 'admin') {
 $pdo = db();
 
 // Load current setting
-$stmt = $pdo->prepare('SELECT `key`, `value` FROM settings WHERE `key` IN ("productive_hours_per_day_seconds","agent_sync_interval_seconds","parallel_sync_workers","delete_screenshots_after_sync","agent_install_path")');
+$stmt = $pdo->prepare('SELECT `key`, `value` FROM settings WHERE `key` IN ("productive_hours_per_day_seconds","agent_sync_interval_seconds","parallel_sync_workers","delete_screenshots_after_sync","agent_install_path","device_monitoring_enabled","screenshots_enabled","screenshot_interval_seconds")');
 $stmt->execute();
 $kv = [];
 foreach ($stmt->fetchAll() as $r) { $kv[$r['key']] = $r['value']; }
@@ -21,6 +21,9 @@ $syncInterval = (int)($kv['agent_sync_interval_seconds'] ?? 60);
 $parallelWorkers = (int)($kv['parallel_sync_workers'] ?? 1);
 $deleteScreenshots = (int)($kv['delete_screenshots_after_sync'] ?? 1);
 $installPath = $kv['agent_install_path'] ?? '';
+$deviceMonitoring = (int)($kv['device_monitoring_enabled'] ?? 0);
+$screenshotsEnabled = (int)($kv['screenshots_enabled'] ?? 1);
+$screenshotInterval = (int)($kv['screenshot_interval_seconds'] ?? 300);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $h = (float)($_POST['productive_hours'] ?? 8);
@@ -43,12 +46,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $installPath = trim($_POST['agent_install_path'] ?? '');
     $up->execute(['agent_install_path', $installPath]);
+
+    $deviceMonitoring = isset($_POST['device_monitoring_enabled']) ? 1 : 0;
+    $up->execute(['device_monitoring_enabled', (string)$deviceMonitoring]);
+
+    $screenshotsEnabled = isset($_POST['screenshots_enabled']) ? 1 : 0;
+    $up->execute(['screenshots_enabled', (string)$screenshotsEnabled]);
+
+    $screenshotInterval = (int)($_POST['screenshot_interval_seconds'] ?? 300);
+    if ($screenshotInterval < 60) { $screenshotInterval = 60; }  // Minimum 60 seconds
+    $up->execute(['screenshot_interval_seconds', (string)$screenshotInterval]);
     
 	header('Location: ' . BASE_URL . 'settings.php?saved=1');
 	exit;
 }
 
-render_layout('Settings', function() use ($hours, $syncInterval, $parallelWorkers, $deleteScreenshots, $installPath) { ?>
+render_layout('Settings', function() use ($hours, $syncInterval, $parallelWorkers, $deleteScreenshots, $installPath, $deviceMonitoring, $screenshotsEnabled, $screenshotInterval) { ?>
     <h5>Settings</h5>
     <?php if (!empty($_GET['saved'])): ?>
     <div class="alert alert-success">Saved.</div>
@@ -77,6 +90,24 @@ render_layout('Settings', function() use ($hours, $syncInterval, $parallelWorker
         </div>
         <div class="mt-3">
             <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="screenshots_enabled" id="screenshotsEnabled" value="1" <?php echo $screenshotsEnabled ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="screenshotsEnabled">
+                    Enable screenshots
+                </label>
+            </div>
+            <div class="form-text">When enabled, agents will capture screenshots at the configured interval.</div>
+        </div>
+        <div class="mt-3">
+            <label class="form-label">Screenshot interval</label>
+            <div class="input-group">
+                <input type="number" class="form-control" name="screenshot_interval_seconds" min="60" step="60" value="<?php echo htmlspecialchars((string)$screenshotInterval); ?>">
+                <span class="input-group-text">seconds</span>
+            </div>
+            <div class="form-text">Interval between screenshots (minimum 60 seconds / 1 minute).</div>
+            <div class="form-text small text-muted">Current: <?php echo round($screenshotInterval / 60, 1); ?> minutes</div>
+        </div>
+        <div class="mt-3">
+            <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="delete_screenshots_after_sync" id="deleteScreenshots" value="1" <?php echo $deleteScreenshots ? 'checked' : ''; ?>>
                 <label class="form-check-label" for="deleteScreenshots">
                     Delete screenshots from agent after successful sync
@@ -88,6 +119,15 @@ render_layout('Settings', function() use ($hours, $syncInterval, $parallelWorker
             <label class="form-label">Agent Install Path</label>
             <input type="text" class="form-control" name="agent_install_path" value="<?php echo htmlspecialchars($installPath); ?>" placeholder="Leave empty for default (ProgramData\TrackerV3Agent)">
             <div class="form-text">Default installation directory for agents. Leave empty to use default: C:\ProgramData\TrackerV3Agent on Windows.</div>
+        </div>
+        <div class="mt-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="device_monitoring_enabled" id="deviceMonitoring" value="1" <?php echo $deviceMonitoring ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="deviceMonitoring">
+                    Enable device monitoring globally
+                </label>
+            </div>
+            <div class="form-text">When enabled, agents can monitor external device connections. Individual agents can still have monitoring enabled/disabled per-machine in the Devices page.</div>
         </div>
         <button class="btn btn-primary mt-3" type="submit">Save</button>
     </form>
