@@ -15,25 +15,44 @@ try:
     from pynput import mouse, keyboard
     from PIL import ImageGrab, Image
     import requests
+    from concurrent.futures import ThreadPoolExecutor, as_completed
 except Exception as e:
     print("Missing dependencies: psutil, pynput, pillow, requests")
     print("Install with: pip install psutil pynput pillow requests")
     sys.exit(1)
 
 
+# Try to load config from config.json (created by installer)
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(APP_DIR, 'data')
+CONFIG_PATH = os.path.join(APP_DIR, 'config.json')
+
+# Load configuration
+DATA_DIR = None
+SERVER_BASE = os.environ.get('TRACKER_SERVER_BASE', 'http://localhost')
+
+if os.path.exists(CONFIG_PATH):
+    try:
+        with open(CONFIG_PATH, 'r') as f:
+            config = json.load(f)
+            DATA_DIR = config.get('data_dir', os.path.join(APP_DIR, 'data'))
+            SERVER_BASE = config.get('server_base', SERVER_BASE)
+    except Exception:
+        pass
+
+if DATA_DIR is None:
+    DATA_DIR = os.path.join(APP_DIR, 'data')
+
 DB_PATH = os.path.join(DATA_DIR, 'agent.db')
 SCREEN_DIR = os.path.join(DATA_DIR, 'screenshots')
 LOG_PATH = os.path.join(DATA_DIR, 'agent.log')
 
-SERVER_BASE = os.environ.get('TRACKER_SERVER_BASE', 'http://localhost')
 INGEST_URL = f"{SERVER_BASE}/api/ingest.php"
 
 USERNAME = os.environ.get('USERNAME') or os.environ.get('USER') or 'unknown'
 MACHINE_ID = os.environ.get('COMPUTERNAME') or socket.gethostname()
 HOSTNAME = socket.gethostname()
 VERBOSE = os.environ.get('TRACKER_VERBOSE', '1') not in ('0', 'false', 'False')
+PARALLEL_WORKERS = int(os.environ.get('TRACKER_PARALLEL_WORKERS', '1'))
 
 os.makedirs(DATA_DIR, exist_ok=True)
 os.makedirs(SCREEN_DIR, exist_ok=True)
@@ -201,8 +220,9 @@ def load_unsynced():
     return acts, shots
 
 
-def mark_synced_and_cleanup(activity_ids, screenshot_items):
+def mark_synced_and_cleanup(activity_ids, screenshot_items, delete_screenshots=True):
     # screenshot_items: list of (id, filename)
+    # delete_screenshots: Whether to delete screenshot files after syncing (configurable)
     con = sqlite3.connect(DB_PATH)
     cur = con.cursor()
     # Delete activity rows
@@ -216,17 +236,47 @@ def mark_synced_and_cleanup(activity_ids, screenshot_items):
         cur.execute(q, shot_ids)
     con.commit()
     con.close()
-    # Remove files on disk (best-effort)
+    # Remove files on disk if configured (best-effort)
     removed = 0
-    for rid, filename in screenshot_items:
-        path = os.path.join(SCREEN_DIR, filename)
-        try:
-            if os.path.exists(path):
-                os.remove(path)
-                removed += 1
-        except Exception as e:
-            log.debug('Failed to remove %s: %s', path, e)
+    if delete_screenshots:
+        for rid, filename in screenshot_items:
+            path = os.path.join(SCREEN_DIR, filename)
+            try:
+                if os.path.exists(path):
+                    os.remove(path)
+                    removed += 1
+            except Exception as e:
+                log.debug('Failed to remove %s: %s', path, e)
     log.info('Cleanup done: deleted %d activity rows, %d screenshots (%d files removed)', len(activity_ids), len(screenshot_items), removed)
+
+
+def sync_chunk(payload_chunk, delete_screenshots=True):
+    """Sync a single chunk of data. Returns (success: bool, activity_ids: list, screenshot_items: list, server_response: dict)"""
+    try:
+        log.debug('Syncing chunk: %d activity, %d screenshots', len(payload_chunk.get('activity', [])), len(payload_chunk.get('screenshots', [])))
+        resp = requests.post(INGEST_URL, json=payload_chunk, timeout=30)
+        status = resp.status_code
+        if status == 200:
+            try:
+                jr = resp.json()
+            except Exception:
+                jr = {}
+            if isinstance(jr, dict) and jr.get('status') == 'ok':
+                # Extract IDs from chunk for cleanup
+                act_ids = payload_chunk.get('_activity_ids', [])
+                shot_items = payload_chunk.get('_screenshot_items', [])
+                # Store delete_screenshots flag in response for later use
+                jr['_delete_screenshots'] = delete_screenshots
+                return (True, act_ids, shot_items, jr)
+            else:
+                log.warning('Sync chunk failed: unexpected JSON response')
+                return (False, [], [], {})
+        else:
+            log.warning('Sync chunk failed: HTTP %s', status)
+            return (False, [], [], {})
+    except Exception as e:
+        log.warning('Sync chunk error: %s', e)
+        return (False, [], [], {})
 
 
 def sync_now():
@@ -235,11 +285,19 @@ def sync_now():
         log.debug('Nothing to sync')
         return
 
-    activity = []
-    act_ids = []
+    # Get parallel workers from environment (updated by server response)
+    parallel_workers = int(os.environ.get('TRACKER_PARALLEL_WORKERS', str(PARALLEL_WORKERS)))
+    if parallel_workers < 1:
+        parallel_workers = 1
+    if parallel_workers > 10:
+        parallel_workers = 10
+
+    # Prepare activity and screenshots
+    all_activity = []
+    all_act_ids = []
     for row in acts:
         (rid, start_time, end_time, prod, unprod, idle, mouse_moves, key_presses) = row
-        activity.append({
+        all_activity.append({
             'start_time': start_time,
             'end_time': end_time,
             'productive_seconds': int(prod),
@@ -248,60 +306,148 @@ def sync_now():
             'mouse_moves': int(mouse_moves),
             'key_presses': int(key_presses),
         })
-        act_ids.append(str(rid))
+        all_act_ids.append(str(rid))
 
-    screenshots = []
-    shot_items = []  # (id, filename)
+    all_screenshots = []
+    all_shot_items = []  # (id, filename)
     for row in shots:
         rid, taken_at, filename = row
         path = os.path.join(SCREEN_DIR, filename)
         if os.path.exists(path):
             with open(path, 'rb') as f:
                 data_b64 = base64.b64encode(f.read()).decode('ascii')
-            screenshots.append({
+            all_screenshots.append({
                 'taken_at': taken_at,
                 'filename': filename,
                 'data_base64': data_b64,
             })
-        shot_items.append((rid, filename))
+        all_shot_items.append((rid, filename))
 
-    payload = {
-        'username': USERNAME,
-        'machine_id': MACHINE_ID,
-        'hostname': HOSTNAME,
-        'activity': activity,
-        'screenshots': screenshots,
-    }
-
-    try:
-        log.info('Syncing: %d activity, %d screenshots -> %s', len(activity), len(screenshots), INGEST_URL)
-        resp = requests.post(INGEST_URL, json=payload, timeout=30)
-        status = resp.status_code
-        body_preview = resp.text[:200]
-        log.debug('Server response: %s %s', status, body_preview)
-        if status == 200:
+    # If parallel workers is 1 or only small amount of data, use single sync
+    total_items = len(all_activity) + len(all_screenshots)
+    if parallel_workers == 1 or total_items <= 50:
+        # Single sync (original behavior)
+        payload = {
+            'username': USERNAME,
+            'machine_id': MACHINE_ID,
+            'hostname': HOSTNAME,
+            'activity': all_activity,
+            'screenshots': all_screenshots,
+            '_activity_ids': all_act_ids,
+            '_screenshot_items': all_shot_items,
+        }
+        # Get delete_screenshots setting (default True, can be overridden by server)
+        delete_screenshots = os.environ.get('TRACKER_DELETE_SCREENSHOTS', '1') not in ('0', 'false', 'False')
+        success, act_ids, shot_items, jr = sync_chunk(payload, delete_screenshots)
+        if success:
+            # Override with server setting if provided
+            server_delete = jr.get('delete_screenshots_after_sync')
+            if server_delete is not None:
+                delete_screenshots = bool(server_delete) if isinstance(server_delete, bool) else str(server_delete) not in ('0', 'false', 'False')
+                os.environ['TRACKER_DELETE_SCREENSHOTS'] = '1' if delete_screenshots else '0'
+            mark_synced_and_cleanup(act_ids, shot_items, delete_screenshots)
+            log.info('Sync successful: %d activity, %d screenshots', len(act_ids), len(shot_items))
+            # Update settings from server response
+            if 'sync_interval_seconds' in jr:
+                try:
+                    interval = int(jr['sync_interval_seconds'])
+                    if interval >= 15:
+                        os.environ['TRACKER_SYNC_INTERVAL'] = str(interval)
+                        log.info('Server set sync interval to %s seconds', interval)
+                except Exception:
+                    pass
+            if 'parallel_sync_workers' in jr:
+                try:
+                    workers = int(jr['parallel_sync_workers'])
+                    if 1 <= workers <= 10:
+                        os.environ['TRACKER_PARALLEL_WORKERS'] = str(workers)
+                        log.info('Server set parallel workers to %s', workers)
+                except Exception:
+                    pass
+    else:
+        # Parallel sync: split data into chunks
+        # Initialize chunks (ensure we have exactly parallel_workers chunks)
+        chunks = [([], [], [], []) for _ in range(parallel_workers)]
+        
+        # Distribute activities across chunks
+        for i, act in enumerate(all_activity):
+            chunk_idx = i % parallel_workers
+            chunks[chunk_idx][0].append(act)
+            chunks[chunk_idx][1].append(all_act_ids[i])
+        
+        # Distribute screenshots across chunks
+        for i, shot in enumerate(all_screenshots):
+            chunk_idx = i % parallel_workers
+            chunks[chunk_idx][2].append(shot)
+            chunks[chunk_idx][3].append(all_shot_items[i])
+        
+        # Prepare payloads
+        payloads = []
+        for chunk_acts, chunk_act_ids, chunk_shots, chunk_shot_items in chunks:
+            if chunk_acts or chunk_shots:
+                payload = {
+                    'username': USERNAME,
+                    'machine_id': MACHINE_ID,
+                    'hostname': HOSTNAME,
+                    'activity': chunk_acts,
+                    'screenshots': chunk_shots,
+                    '_activity_ids': chunk_act_ids,
+                    '_screenshot_items': chunk_shot_items,
+                }
+                payloads.append(payload)
+        
+        if not payloads:
+            return
+        
+        log.info('Syncing in parallel (%d workers): %d total activity, %d total screenshots across %d chunks',
+                 parallel_workers, len(all_activity), len(all_screenshots), len(payloads))
+        
+        # Execute parallel syncs
+        all_synced_act_ids = []
+        all_synced_shot_items = []
+        server_settings = {}
+        
+        # Get delete_screenshots setting
+        delete_screenshots = os.environ.get('TRACKER_DELETE_SCREENSHOTS', '1') not in ('0', 'false', 'False')
+        
+        with ThreadPoolExecutor(max_workers=parallel_workers) as executor:
+            future_to_payload = {executor.submit(sync_chunk, payload, delete_screenshots): payload for payload in payloads}
+            for future in as_completed(future_to_payload):
+                success, act_ids, shot_items, jr = future.result()
+                if success:
+                    all_synced_act_ids.extend(act_ids)
+                    all_synced_shot_items.extend(shot_items)
+                    # Merge server settings (take last one if multiple)
+                    if jr:
+                        server_settings.update(jr)
+        
+        # Override delete_screenshots with server setting if provided
+        server_delete = server_settings.get('delete_screenshots_after_sync')
+        if server_delete is not None:
+            delete_screenshots = bool(server_delete) if isinstance(server_delete, bool) else str(server_delete) not in ('0', 'false', 'False')
+            os.environ['TRACKER_DELETE_SCREENSHOTS'] = '1' if delete_screenshots else '0'
+        
+        if all_synced_act_ids or all_synced_shot_items:
+            mark_synced_and_cleanup(all_synced_act_ids, all_synced_shot_items, delete_screenshots)
+            log.info('Parallel sync successful: %d activity, %d screenshots', len(all_synced_act_ids), len(all_synced_shot_items))
+        
+        # Update settings from server response
+        if 'sync_interval_seconds' in server_settings:
             try:
-                jr = resp.json()
+                interval = int(server_settings['sync_interval_seconds'])
+                if interval >= 15:
+                    os.environ['TRACKER_SYNC_INTERVAL'] = str(interval)
+                    log.info('Server set sync interval to %s seconds', interval)
             except Exception:
-                jr = {}
-            if isinstance(jr, dict) and jr.get('status') == 'ok':
-                mark_synced_and_cleanup(act_ids, shot_items)
-                log.info('Sync successful')
-                # Adjust loop timing based on server-provided interval if present
-                if 'sync_interval_seconds' in jr:
-                    try:
-                        interval = int(jr['sync_interval_seconds'])
-                        if interval >= 15:
-                            os.environ['TRACKER_SYNC_INTERVAL'] = str(interval)
-                            log.info('Server set sync interval to %s seconds', interval)
-                    except Exception:
-                        pass
-            else:
-                log.warning('Sync failed: unexpected JSON response')
-        else:
-            log.warning('Sync failed: HTTP %s', status)
-    except Exception as e:
-        log.warning('Sync error: %s', e)
+                pass
+        if 'parallel_sync_workers' in server_settings:
+            try:
+                workers = int(server_settings['parallel_sync_workers'])
+                if 1 <= workers <= 10:
+                    os.environ['TRACKER_PARALLEL_WORKERS'] = str(workers)
+                    log.info('Server set parallel workers to %s', workers)
+            except Exception:
+                pass
 
 
 def main():

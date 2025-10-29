@@ -92,11 +92,22 @@ try {
 	exit;
 }
 
-// Return status + current server settings so agent can adapt (e.g., sync interval)
-$s = $pdo->prepare('SELECT `value` FROM settings WHERE `key` = ?');
-$s->execute(['agent_sync_interval_seconds']);
-$syncInterval = (int)($s->fetch()['value'] ?? 60);
-echo json_encode(['status' => 'ok', 'sync_interval_seconds' => $syncInterval]);
+// Return status + current server settings so agent can adapt (e.g., sync interval, parallel workers, screenshot deletion)
+$s = $pdo->prepare('SELECT `key`, `value` FROM settings WHERE `key` IN (?, ?, ?)');
+$s->execute(['agent_sync_interval_seconds', 'parallel_sync_workers', 'delete_screenshots_after_sync']);
+$settings = [];
+foreach ($s->fetchAll() as $row) {
+    $settings[$row['key']] = $row['value'];
+}
+$syncInterval = (int)($settings['agent_sync_interval_seconds'] ?? 60);
+$parallelWorkers = (int)($settings['parallel_sync_workers'] ?? 1);
+$deleteScreenshots = (int)($settings['delete_screenshots_after_sync'] ?? 1);
+echo json_encode([
+    'status' => 'ok',
+    'sync_interval_seconds' => $syncInterval,
+    'parallel_sync_workers' => $parallelWorkers,
+    'delete_screenshots_after_sync' => (bool)$deleteScreenshots
+]);
 
 
 
