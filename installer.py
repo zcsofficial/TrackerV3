@@ -45,26 +45,35 @@ def get_server_base():
     
     return server.rstrip('/')
 
-def download_agent(server_base):
-    """Download agent.py from server"""
-    download_url = f"{server_base}/api/download_agent.php"
-    print(f"\nDownloading agent from: {download_url}")
+def download_agent_files(server_base):
+    """Download all agent files from server"""
+    files_to_download = ['agent.py', 'config.py', 'monitoring.py', 'permission.py']
+    downloaded_files = {}
     
-    try:
-        with urllib.request.urlopen(download_url, timeout=30) as response:
-            if response.status == 200:
-                content = response.read().decode('utf-8')
-                print("✓ Agent downloaded successfully")
-                return content
-            else:
-                print(f"✗ Server returned status {response.status}")
-                return None
-    except urllib.error.URLError as e:
-        print(f"✗ Failed to download agent: {e}")
-        return None
+    print(f"\nDownloading agent files from server...")
+    
+    for filename in files_to_download:
+        download_url = f"{server_base}/api/download_agent.php?file={filename}"
+        print(f"  Downloading {filename}...", end=' ')
+        
+        try:
+            with urllib.request.urlopen(download_url, timeout=30) as response:
+                if response.status == 200:
+                    content = response.read().decode('utf-8')
+                    downloaded_files[filename] = content
+                    print("✓")
+                else:
+                    print(f"✗ (Status: {response.status})")
+                    return None
+        except urllib.error.URLError as e:
+            print(f"✗ ({e})")
+            return None
+    
+    print("✓ All agent files downloaded successfully")
+    return downloaded_files
 
-def install_agent(agent_content, server_base):
-    """Install agent to ProgramData folder"""
+def install_agent_files(agent_files, server_base):
+    """Install all agent files to ProgramData folder"""
     print(f"\nInstalling to: {INSTALL_DIR}")
     
     try:
@@ -73,12 +82,12 @@ def install_agent(agent_content, server_base):
         os.makedirs(DATA_DIR, exist_ok=True)
         os.makedirs(SCREEN_DIR, exist_ok=True)
         
-        # Write agent.py
-        agent_path = os.path.join(INSTALL_DIR, 'agent.py')
-        with open(agent_path, 'w', encoding='utf-8') as f:
-            f.write(agent_content)
-        
-        print(f"✓ Agent installed to: {agent_path}")
+        # Write all agent files
+        for filename, content in agent_files.items():
+            file_path = os.path.join(INSTALL_DIR, filename)
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(content)
+            print(f"✓ {filename} installed to: {file_path}")
         
         # Create requirements.txt
         requirements_path = os.path.join(INSTALL_DIR, 'requirements.txt')
@@ -322,14 +331,14 @@ def main():
     try:
         server_base = get_server_base()
         
-        # Download agent
-        agent_content = download_agent(server_base)
-        if not agent_content:
+        # Download all agent files
+        agent_files = download_agent_files(server_base)
+        if not agent_files:
             print("\n✗ Installation aborted")
             sys.exit(1)
         
-        # Install agent
-        if not install_agent(agent_content, server_base):
+        # Install all agent files
+        if not install_agent_files(agent_files, server_base):
             print("\n✗ Installation aborted")
             sys.exit(1)
         
