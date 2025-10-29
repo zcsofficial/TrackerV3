@@ -20,7 +20,7 @@ log = logging.getLogger('tracker_agent.permission')
 
 # Cache for device permissions (avoid frequent API calls)
 _permission_cache = {}
-_cache_timeout = 300  # 5 minutes
+_cache_timeout = 10  # 10 seconds - reduced for faster permission updates from UI
 _cache_timestamps = {}
 
 def get_device_permission(device_hash, device_name=None):
@@ -52,11 +52,19 @@ def get_device_permission(device_hash, device_name=None):
         if response.status_code == 200:
             result = response.json()
             permission = result.get('permission')  # 'allowed', 'blocked', or None
+            old_permission = _permission_cache.get(device_hash)
             _permission_cache[device_hash] = permission
             _cache_timestamps[device_hash] = time.time()
+            
+            # Log permission status for debugging
+            if old_permission != permission:
+                log.info(f"Device permission updated: {device_name} (Hash: {device_hash}) - {old_permission} → {permission}")
+            
             return permission
+        else:
+            log.warning(f"Permission API returned status {response.status_code} for device: {device_name}")
     except Exception as e:
-        log.debug(f"Error checking device permission: {e}")
+        log.warning(f"Error checking device permission for {device_name}: {e}")
     
     return None  # Default: not determined yet
 
@@ -75,6 +83,14 @@ def clear_permission_cache():
     global _permission_cache, _cache_timestamps
     _permission_cache = {}
     _cache_timestamps = {}
+
+def clear_device_cache(device_hash):
+    """Clear cache for a specific device (called when permission changes)"""
+    global _permission_cache, _cache_timestamps
+    if device_hash in _permission_cache:
+        del _permission_cache[device_hash]
+    if device_hash in _cache_timestamps:
+        del _cache_timestamps[device_hash]
 
 def block_device_local(device_hash):
     """Block device locally (add to cache)"""

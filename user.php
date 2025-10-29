@@ -80,15 +80,17 @@ render_layout('User Detail', function() use ($u, $lastSync, $targetSeconds, $agg
         </div>
         <div class="col-md-6">
             <div class="card"><div class="card-body"><h6>Screenshots (latest)</h6>
-                <div class="row g-2">
-                    <?php foreach ($screens as $s): ?>
-                    <div class="col-6">
-                        <div class="border rounded p-1">
-                            <div class="small text-muted"><?php echo htmlspecialchars($s['taken_at']); ?> (<?php echo (int)$s['filesize_kb']; ?> KB)</div>
-                            <img src="<?php echo 'storage/screenshots/' . htmlspecialchars($s['filename']); ?>" class="img-fluid" />
+                <div style="max-height: 400px; overflow-y: auto; overflow-x: hidden;">
+                    <div class="row g-2">
+                        <?php foreach ($screens as $s): ?>
+                        <div class="col-6">
+                            <div class="border rounded p-1 mb-2">
+                                <div class="small text-muted"><?php echo htmlspecialchars($s['taken_at']); ?> (<?php echo (int)$s['filesize_kb']; ?> KB)</div>
+                                <img src="<?php echo 'storage/screenshots/' . htmlspecialchars($s['filename']); ?>" class="img-fluid" style="max-height: 150px; object-fit: contain;" />
+                            </div>
                         </div>
+                        <?php endforeach; ?>
                     </div>
-                    <?php endforeach; ?>
                 </div>
             </div></div>
         </div>

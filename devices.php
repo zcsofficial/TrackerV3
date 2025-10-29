@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 	exit;
 }
 
-// Handle POST: Block/Allow device
+// Handle POST: Block/Allow device (single)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_device_permission') {
 	$deviceId = (int)($_POST['device_id'] ?? 0);
 	$permission = trim($_POST['permission'] ?? ''); // 'allow', 'block', 'unblock'
@@ -56,6 +56,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 			$_SESSION['success'] = 'Device permission updated successfully';
 		} catch (Exception $e) {
 			$_SESSION['error'] = 'Failed to update device permission: ' . $e->getMessage();
+		}
+	}
+	header('Location: ' . BASE_URL . 'devices.php');
+	exit;
+}
+
+// Handle POST: Bulk update devices
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'bulk_update_devices') {
+	$deviceIds = $_POST['device_ids'] ?? [];
+	$permission = trim($_POST['bulk_permission'] ?? ''); // 'allow', 'block', 'unblock', 'delete'
+	
+	if (!empty($deviceIds) && is_array($deviceIds) && in_array($permission, ['allow', 'block', 'unblock', 'delete'])) {
+		try {
+			$pdo->beginTransaction();
+			
+			$deviceIds = array_map('intval', $deviceIds);
+			$placeholders = implode(',', array_fill(0, count($deviceIds), '?'));
+			
+			if ($permission === 'delete') {
+				// Delete devices and logs (use prepared statement for DELETE)
+				$logStmt = $pdo->prepare("DELETE FROM device_logs WHERE device_id IN ($placeholders)");
+				$logStmt->execute($deviceIds);
+				
+				$stmt = $pdo->prepare("DELETE FROM devices WHERE id IN ($placeholders)");
+				$stmt->execute($deviceIds);
+				$affected = $stmt->rowCount();
+				$_SESSION['success'] = "Deleted $affected device(s) successfully";
+			} else {
+				// Update permissions
+				if ($permission === 'allow') {
+					$stmt = $pdo->prepare("UPDATE devices SET is_allowed = 1, is_blocked = 0 WHERE id IN ($placeholders)");
+				} elseif ($permission === 'block') {
+					$stmt = $pdo->prepare("UPDATE devices SET is_allowed = 0, is_blocked = 1 WHERE id IN ($placeholders)");
+				} else { // unblock
+					$stmt = $pdo->prepare("UPDATE devices SET is_blocked = 0 WHERE id IN ($placeholders)");
+				}
+				$stmt->execute($deviceIds);
+				$affected = $stmt->rowCount();
+				
+				// Log bulk actions
+				if ($permission !== 'delete') {
+					$logStmt = $pdo->prepare('INSERT INTO device_logs (device_id, user_id, machine_id, action, action_time) 
+					                          SELECT id, user_id, machine_id, ?, NOW() FROM devices WHERE id IN (' . $placeholders . ')');
+					$logParams = array_merge([$permission], $deviceIds);
+					$logStmt->execute($logParams);
+				}
+				
+				$actionName = $permission === 'allow' ? 'allowed' : ($permission === 'block' ? 'blocked' : 'unblocked');
+				$_SESSION['success'] = "Updated $affected device(s) - $actionName";
+			}
+			
+			$pdo->commit();
+		} catch (Exception $e) {
+			$pdo->rollBack();
+			$_SESSION['error'] = 'Failed to bulk update devices: ' . $e->getMessage();
 		}
 	}
 	header('Location: ' . BASE_URL . 'devices.php');
@@ -227,14 +282,42 @@ render_layout('Device Monitoring', function() use ($machines, $deviceList, $user
     
     <!-- Devices List -->
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between align-items-center">
             <h6 class="mb-0">Detected Devices (<?php echo count($deviceList); ?>)</h6>
+            <div>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="selectAll()">
+                    <i class="bi bi-check-square"></i> Select All
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="deselectAll()">
+                    <i class="bi bi-square"></i> Deselect
+                </button>
+            </div>
         </div>
         <div class="card-body">
+            <!-- Bulk Actions -->
+            <form method="post" id="bulkForm" class="mb-3" onsubmit="return confirm('Are you sure you want to perform this bulk action?')">
+                <input type="hidden" name="action" value="bulk_update_devices">
+                <div class="input-group">
+                    <select name="bulk_permission" class="form-select" required>
+                        <option value="">-- Bulk Action --</option>
+                        <option value="allow">Allow Selected</option>
+                        <option value="block">Block Selected</option>
+                        <option value="unblock">Unblock Selected</option>
+                        <option value="delete">Delete Selected</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check2-all"></i> Apply to Selected
+                    </button>
+                </div>
+            </form>
+            
             <div class="table-responsive">
                 <table class="table table-sm table-striped">
                     <thead>
                         <tr>
+                            <th width="40">
+                                <input type="checkbox" id="checkAll" onchange="toggleAll(this)">
+                            </th>
                             <th>Device Name</th>
                             <th>Type</th>
                             <th>Vendor/Product</th>
@@ -249,6 +332,9 @@ render_layout('Device Monitoring', function() use ($machines, $deviceList, $user
                     <tbody>
                         <?php foreach ($deviceList as $d): ?>
                         <tr>
+                            <td>
+                                <input type="checkbox" name="device_ids[]" value="<?php echo (int)$d['id']; ?>" class="device-checkbox" form="bulkForm">
+                            </td>
                             <td><strong><?php echo htmlspecialchars($d['device_name']); ?></strong></td>
                             <td>
                                 <span class="badge bg-info"><?php echo htmlspecialchars($d['device_type']); ?></span>
@@ -312,7 +398,7 @@ render_layout('Device Monitoring', function() use ($machines, $deviceList, $user
                         <?php endforeach; ?>
                         <?php if (empty($deviceList)): ?>
                         <tr>
-                            <td colspan="9" class="text-center text-muted">No devices found</td>
+                            <td colspan="10" class="text-center text-muted">No devices found</td>
                         </tr>
                         <?php endif; ?>
                     </tbody>
@@ -320,5 +406,33 @@ render_layout('Device Monitoring', function() use ($machines, $deviceList, $user
             </div>
         </div>
     </div>
+    
+    <script>
+        function toggleAll(checkbox) {
+            const checkboxes = document.querySelectorAll('.device-checkbox');
+            checkboxes.forEach(cb => cb.checked = checkbox.checked);
+        }
+        
+        function selectAll() {
+            document.getElementById('checkAll').checked = true;
+            toggleAll(document.getElementById('checkAll'));
+        }
+        
+        function deselectAll() {
+            document.getElementById('checkAll').checked = false;
+            toggleAll(document.getElementById('checkAll'));
+        }
+        
+        // Update bulk form with selected device IDs
+        document.getElementById('bulkForm').addEventListener('submit', function(e) {
+            const checkboxes = document.querySelectorAll('.device-checkbox:checked');
+            if (checkboxes.length === 0) {
+                e.preventDefault();
+                alert('Please select at least one device');
+                return false;
+            }
+            // Device IDs are already in form as checkboxes
+        });
+    </script>
 <?php });
 

@@ -87,6 +87,8 @@ def install_agent(agent_content, server_base):
 pynput>=1.7.6
 pillow>=10.0.0
 requests>=2.31.0
+wmi>=1.5.1
+pywin32>=306
 """)
         print(f"✓ Requirements file created: {requirements_path}")
         

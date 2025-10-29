@@ -397,17 +397,17 @@ def main():
     # Log initial settings on startup
     from config import is_screenshots_enabled, get_screenshot_interval, is_device_monitoring_enabled
     log.info('Initial agent settings: sync_interval=%ss, screenshots=%s (interval=%ss), device_monitoring=%s',
-             os.environ.get('TRACKER_SYNC_INTERVAL', '60'),
+             os.environ.get('TRACKER_SYNC_INTERVAL', '10'),
              'ENABLED' if is_screenshots_enabled() else 'DISABLED',
              get_screenshot_interval(),
              'ENABLED' if is_device_monitoring_enabled() else 'DISABLED')
     log.info('NOTE: Settings are updated from server during each sync cycle (current sync_interval=%ss). Changes in UI typically reflect within one sync interval.',
-             os.environ.get('TRACKER_SYNC_INTERVAL', '60'))
+             os.environ.get('TRACKER_SYNC_INTERVAL', '10'))
 
     last_screenshot = time.time()
     last_device_scan = time.time()
     interval_env = os.environ.get('TRACKER_SYNC_INTERVAL')
-    loop_interval = int(interval_env) if (interval_env and interval_env.isdigit()) else 60
+    loop_interval = int(interval_env) if (interval_env and interval_env.isdigit()) else 10
     
     # Get screenshot settings from config
     screenshot_interval = get_screenshot_interval()

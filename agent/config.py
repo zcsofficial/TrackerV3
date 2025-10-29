@@ -85,7 +85,7 @@ def update_from_server_response(server_response):
         try:
             interval = int(server_response['sync_interval_seconds'])
             if interval >= 15:
-                old_val = os.environ.get('TRACKER_SYNC_INTERVAL', '60')
+                old_val = os.environ.get('TRACKER_SYNC_INTERVAL', '10')
                 os.environ['TRACKER_SYNC_INTERVAL'] = str(interval)
                 if old_val != str(interval):
                     settings_updated.append(f"sync_interval={old_val}→{interval}s")
@@ -150,7 +150,7 @@ def update_from_server_response(server_response):
     
     # Log current active settings periodically (first time or on change)
     current_settings = {
-        'sync_interval': os.environ.get('TRACKER_SYNC_INTERVAL', '60'),
+        'sync_interval': os.environ.get('TRACKER_SYNC_INTERVAL', '10'),
         'parallel_workers': os.environ.get('TRACKER_PARALLEL_WORKERS', '1'),
         'delete_screenshots': os.environ.get('TRACKER_DELETE_SCREENSHOTS', '1'),
         'device_monitoring': os.environ.get('TRACKER_DEVICE_MONITORING', '0'),
