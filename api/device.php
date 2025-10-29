@@ -113,8 +113,8 @@ try {
         $insertStmt = $pdo->prepare('
             INSERT INTO devices 
             (user_id, machine_id, device_type, vendor_id, product_id, serial_number, 
-             device_name, device_path, first_seen, last_seen, is_blocked, is_allowed)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
+             device_name, device_path, device_hash, first_seen, last_seen, is_blocked, is_allowed)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ');
         $insertStmt->execute([
             $userId,
@@ -125,9 +125,11 @@ try {
             $serialNumber ?: null,
             $deviceName,
             $devicePath ?: null,
+            $deviceHash,
             $timestamp,
             $timestamp,
-            $shouldBlock ? 1 : 0
+            $shouldBlock ? 1 : 0,
+            0  // is_allowed
         ]);
         $deviceId = (int)$pdo->lastInsertId();
     }

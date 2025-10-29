@@ -6,6 +6,7 @@ import requests
 import logging
 import sys
 import os
+import time
 
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -32,7 +33,6 @@ def get_device_permission(device_hash, device_name=None):
     
     # Check cache first
     if device_hash in _permission_cache:
-        import time
         if time.time() - _cache_timestamps.get(device_hash, 0) < _cache_timeout:
             return _permission_cache[device_hash]
     
@@ -44,7 +44,7 @@ def get_device_permission(device_hash, device_name=None):
             'device_name': device_name
         }
         response = requests.post(
-            f"{PERMISSION_API_URL}/check",
+            f"{PERMISSION_API_URL}?action=check",
             json=payload,
             timeout=5
         )
@@ -53,7 +53,6 @@ def get_device_permission(device_hash, device_name=None):
             result = response.json()
             permission = result.get('permission')  # 'allowed', 'blocked', or None
             _permission_cache[device_hash] = permission
-            import time
             _cache_timestamps[device_hash] = time.time()
             return permission
     except Exception as e:
@@ -80,12 +79,10 @@ def clear_permission_cache():
 def block_device_local(device_hash):
     """Block device locally (add to cache)"""
     _permission_cache[device_hash] = 'blocked'
-    import time
     _cache_timestamps[device_hash] = time.time()
 
 def allow_device_local(device_hash):
     """Allow device locally (add to cache)"""
     _permission_cache[device_hash] = 'allowed'
-    import time
     _cache_timestamps[device_hash] = time.time()
 

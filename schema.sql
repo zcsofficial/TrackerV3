@@ -95,6 +95,7 @@ CREATE TABLE IF NOT EXISTS `devices` (
   `serial_number` VARCHAR(255) NULL,
   `device_name` VARCHAR(255) NOT NULL,
   `device_path` VARCHAR(500) NULL,
+  `device_hash` VARCHAR(64) NULL,
   `first_seen` DATETIME NOT NULL,
   `last_seen` DATETIME NOT NULL,
   `is_blocked` TINYINT(1) NOT NULL DEFAULT 0,
@@ -102,7 +103,8 @@ CREATE TABLE IF NOT EXISTS `devices` (
   `block_reason` TEXT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   INDEX `idx_user_machine` (`user_id`, `machine_id`),
-  INDEX `idx_device_hash` (`vendor_id`, `product_id`, `serial_number`),
+  INDEX `idx_device_hash` (`device_hash`),
+  INDEX `idx_device_ids` (`vendor_id`, `product_id`, `serial_number`),
   INDEX `idx_is_blocked` (`is_blocked`),
   CONSTRAINT `fk_devices_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL,
   CONSTRAINT `fk_devices_machine` FOREIGN KEY (`machine_id`) REFERENCES `machines`(`id`) ON DELETE SET NULL

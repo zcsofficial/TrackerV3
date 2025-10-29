@@ -67,3 +67,305 @@
 2025-10-29 16:33:39,245 | DEBUG | Syncing chunk: 1 activity, 0 screenshots
 2025-10-29 16:33:39,261 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
 2025-10-29 16:33:39,261 | INFO | Sync successful: 1 activity, 0 screenshots
+2025-10-29 16:34:39,263 | INFO | Collected minute: prod=57 unprod=0 idle=3 mouse=539 keys=114
+2025-10-29 16:34:39,273 | DEBUG | Saved activity locally: 2025-10-29 11:03:39 -> 2025-10-29 11:04:39
+2025-10-29 16:34:39,341 | INFO | Captured screenshot sc_20251029_110439.jpg (301 KB)
+2025-10-29 16:34:39,343 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:34:39,364 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:34:39,414 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:34:39,414 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:35:39,415 | INFO | Collected minute: prod=49 unprod=0 idle=11 mouse=459 keys=2
+2025-10-29 16:35:39,422 | DEBUG | Saved activity locally: 2025-10-29 11:04:39 -> 2025-10-29 11:05:39
+2025-10-29 16:35:39,498 | INFO | Captured screenshot sc_20251029_110539.jpg (317 KB)
+2025-10-29 16:35:39,500 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:35:39,516 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:35:39,567 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:35:39,567 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:36:31,663 | INFO | Interrupted by user. Exiting...
+2025-10-29 16:37:52,750 | DEBUG | Logging initialized. LOG_PATH=C:\xampp\htdocs\TrackerV3\data\agent.log VERBOSE=True
+2025-10-29 16:38:32,885 | DEBUG | Logging initialized. LOG_PATH=C:\xampp\htdocs\TrackerV3\data\agent.log VERBOSE=True
+2025-10-29 16:38:32,886 | INFO | Database initialized at C:\xampp\htdocs\TrackerV3\data\agent.db
+2025-10-29 16:38:32,886 | INFO | ActivityTracker initialized
+2025-10-29 16:38:32,890 | INFO | Listeners started. USERNAME=AdnanKakkattil MACHINE_ID=GRIT-CLT-LT-246 HOSTNAME=GRIT-CLT-LT-246 SERVER=http://localhost:8080
+2025-10-29 16:38:32,891 | INFO | Initial agent settings: sync_interval=60s, screenshots=ENABLED (interval=300s), device_monitoring=DISABLED
+2025-10-29 16:38:32,891 | INFO | NOTE: Settings are updated from server during each sync cycle (current sync_interval=60s). Changes in UI typically reflect within one sync interval.
+2025-10-29 16:38:59,068 | DEBUG | Logging initialized. LOG_PATH=C:\xampp\htdocs\TrackerV3\data\agent.log VERBOSE=True
+2025-10-29 16:39:32,891 | INFO | Collected minute: prod=0 unprod=0 idle=60 mouse=0 keys=0
+2025-10-29 16:39:32,903 | DEBUG | Saved activity locally: 2025-10-29 11:08:32 -> 2025-10-29 11:09:32
+2025-10-29 16:39:32,905 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-10-29 16:39:32,905 | DEBUG | Syncing chunk: 1 activity, 0 screenshots
+2025-10-29 16:39:32,944 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-10-29 16:39:32,944 | INFO | Sync successful: 1 activity, 0 screenshots
+2025-10-29 16:39:32,944 | INFO | Settings updated from server: sync_interval=60→15s, parallel_workers=1→10, screenshot_interval=300→60s (1min)
+2025-10-29 16:39:32,965 | INFO | Current active settings: sync_interval=15s, parallel_workers=10, delete_screenshots=1, device_monitoring=0, screenshots_enabled=1, screenshot_interval=60s
+2025-10-29 16:40:32,966 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=396 keys=3
+2025-10-29 16:40:32,991 | DEBUG | Saved activity locally: 2025-10-29 11:09:32 -> 2025-10-29 11:10:32
+2025-10-29 16:40:33,146 | INFO | Captured screenshot sc_20251029_111032.jpg (138 KB)
+2025-10-29 16:40:33,148 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:40:33,163 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:40:33,220 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:40:33,220 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:40:49,685 | DEBUG | Logging initialized. LOG_PATH=C:\xampp\htdocs\TrackerV3\data\agent.log VERBOSE=True
+2025-10-29 16:40:49,685 | INFO | Database initialized at C:\xampp\htdocs\TrackerV3\data\agent.db
+2025-10-29 16:40:49,686 | INFO | ActivityTracker initialized
+2025-10-29 16:40:49,690 | INFO | Listeners started. USERNAME=AdnanKakkattil MACHINE_ID=GRIT-CLT-LT-246 HOSTNAME=GRIT-CLT-LT-246 SERVER=http://localhost:8080
+2025-10-29 16:40:49,690 | INFO | Initial agent settings: sync_interval=60s, screenshots=ENABLED (interval=300s), device_monitoring=DISABLED
+2025-10-29 16:40:49,690 | INFO | NOTE: Settings are updated from server during each sync cycle (current sync_interval=60s). Changes in UI typically reflect within one sync interval.
+2025-10-29 16:41:33,222 | INFO | Collected minute: prod=58 unprod=0 idle=2 mouse=1122 keys=33
+2025-10-29 16:41:33,235 | DEBUG | Saved activity locally: 2025-10-29 11:10:33 -> 2025-10-29 11:11:33
+2025-10-29 16:41:33,297 | INFO | Captured screenshot sc_20251029_111133.jpg (242 KB)
+2025-10-29 16:41:33,298 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:41:33,310 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:41:33,348 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:41:33,349 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:41:49,692 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=1032 keys=113
+2025-10-29 16:41:49,704 | DEBUG | Saved activity locally: 2025-10-29 11:10:49 -> 2025-10-29 11:11:49
+2025-10-29 16:41:49,708 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-10-29 16:41:49,710 | DEBUG | Syncing chunk: 1 activity, 0 screenshots
+2025-10-29 16:41:49,733 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-10-29 16:41:49,733 | INFO | Sync successful: 1 activity, 0 screenshots
+2025-10-29 16:41:49,733 | INFO | Settings updated from server: sync_interval=60→15s, parallel_workers=1→10, screenshot_interval=300→60s (1min)
+2025-10-29 16:41:49,734 | INFO | Current active settings: sync_interval=15s, parallel_workers=10, delete_screenshots=1, device_monitoring=0, screenshots_enabled=1, screenshot_interval=60s
+2025-10-29 16:42:33,351 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=434 keys=109
+2025-10-29 16:42:33,375 | DEBUG | Saved activity locally: 2025-10-29 11:11:33 -> 2025-10-29 11:12:33
+2025-10-29 16:42:33,615 | INFO | Captured screenshot sc_20251029_111233.jpg (117 KB)
+2025-10-29 16:42:33,624 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:42:33,661 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:42:33,783 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:42:33,783 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:42:49,735 | INFO | Collected minute: prod=46 unprod=0 idle=14 mouse=335 keys=20
+2025-10-29 16:42:49,748 | DEBUG | Saved activity locally: 2025-10-29 11:11:49 -> 2025-10-29 11:12:49
+2025-10-29 16:42:49,818 | INFO | Captured screenshot sc_20251029_111249.jpg (220 KB)
+2025-10-29 16:42:49,819 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:42:49,844 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:42:49,872 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:42:49,872 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:43:33,784 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=1180 keys=19
+2025-10-29 16:43:33,798 | DEBUG | Saved activity locally: 2025-10-29 11:12:33 -> 2025-10-29 11:13:33
+2025-10-29 16:43:33,856 | INFO | Captured screenshot sc_20251029_111333.jpg (205 KB)
+2025-10-29 16:43:33,857 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:43:33,876 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:43:33,919 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:43:33,919 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:43:49,874 | INFO | Collected minute: prod=57 unprod=0 idle=3 mouse=1148 keys=69
+2025-10-29 16:43:49,902 | DEBUG | Saved activity locally: 2025-10-29 11:12:49 -> 2025-10-29 11:13:49
+2025-10-29 16:43:50,071 | INFO | Captured screenshot sc_20251029_111349.jpg (121 KB)
+2025-10-29 16:43:50,076 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:43:50,095 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:43:50,203 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:43:50,205 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:44:33,922 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=1232 keys=127
+2025-10-29 16:44:33,938 | DEBUG | Saved activity locally: 2025-10-29 11:13:33 -> 2025-10-29 11:14:33
+2025-10-29 16:44:34,096 | INFO | Captured screenshot sc_20251029_111433.jpg (111 KB)
+2025-10-29 16:44:34,097 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:44:34,109 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:44:34,159 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:44:34,164 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:44:50,208 | INFO | Collected minute: prod=59 unprod=0 idle=1 mouse=1851 keys=77
+2025-10-29 16:44:50,253 | DEBUG | Saved activity locally: 2025-10-29 11:13:50 -> 2025-10-29 11:14:50
+2025-10-29 16:44:50,367 | INFO | Captured screenshot sc_20251029_111450.jpg (111 KB)
+2025-10-29 16:44:50,370 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:44:50,382 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:44:50,445 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:44:50,447 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:44:50,448 | INFO | Settings updated from server: device_monitoring=0→1 (ENABLED)
+2025-10-29 16:44:50,449 | INFO | Current active settings: sync_interval=15s, parallel_workers=10, delete_screenshots=1, device_monitoring=1, screenshots_enabled=1, screenshot_interval=60s
+2025-10-29 16:45:34,173 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=1340 keys=51
+2025-10-29 16:45:34,211 | DEBUG | Saved activity locally: 2025-10-29 11:14:34 -> 2025-10-29 11:15:34
+2025-10-29 16:45:34,436 | INFO | Captured screenshot sc_20251029_111534.jpg (110 KB)
+2025-10-29 16:45:34,439 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:45:34,457 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:45:34,554 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:45:34,555 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:45:34,555 | INFO | Settings updated from server: device_monitoring=0→1 (ENABLED)
+2025-10-29 16:45:34,555 | INFO | Current active settings: sync_interval=15s, parallel_workers=10, delete_screenshots=1, device_monitoring=1, screenshots_enabled=1, screenshot_interval=60s
+2025-10-29 16:45:50,456 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=720 keys=129
+2025-10-29 16:45:50,468 | DEBUG | Saved activity locally: 2025-10-29 11:14:50 -> 2025-10-29 11:15:50
+2025-10-29 16:45:50,530 | INFO | Captured screenshot sc_20251029_111550.jpg (213 KB)
+2025-10-29 16:45:50,531 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:45:50,532 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:45:50,554 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:45:50,612 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:45:50,612 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:46:34,556 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=590 keys=226
+2025-10-29 16:46:34,566 | DEBUG | Saved activity locally: 2025-10-29 11:15:34 -> 2025-10-29 11:16:34
+2025-10-29 16:46:34,631 | INFO | Captured screenshot sc_20251029_111634.jpg (222 KB)
+2025-10-29 16:46:34,631 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:46:34,633 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:46:34,652 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:46:34,703 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:46:34,704 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:46:50,613 | INFO | Collected minute: prod=59 unprod=0 idle=1 mouse=602 keys=196
+2025-10-29 16:46:50,625 | DEBUG | Saved activity locally: 2025-10-29 11:15:50 -> 2025-10-29 11:16:50
+2025-10-29 16:46:50,685 | INFO | Captured screenshot sc_20251029_111650.jpg (247 KB)
+2025-10-29 16:46:50,687 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:46:50,688 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:46:50,706 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:46:50,773 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:46:50,773 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:47:34,705 | INFO | Collected minute: prod=48 unprod=0 idle=12 mouse=581 keys=80
+2025-10-29 16:47:34,716 | DEBUG | Saved activity locally: 2025-10-29 11:16:34 -> 2025-10-29 11:17:34
+2025-10-29 16:47:34,849 | INFO | Captured screenshot sc_20251029_111734.jpg (171 KB)
+2025-10-29 16:47:34,853 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:47:34,856 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:47:34,868 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:47:34,920 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:47:34,920 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:47:50,774 | INFO | Collected minute: prod=31 unprod=0 idle=29 mouse=507 keys=32
+2025-10-29 16:47:50,806 | DEBUG | Saved activity locally: 2025-10-29 11:16:50 -> 2025-10-29 11:17:50
+2025-10-29 16:47:50,924 | INFO | Captured screenshot sc_20251029_111750.jpg (171 KB)
+2025-10-29 16:47:50,925 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:47:50,928 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:47:50,941 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:47:50,971 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:47:50,971 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:48:24,438 | INFO | Interrupted by user. Exiting...
+2025-10-29 16:48:34,921 | INFO | Collected minute: prod=55 unprod=0 idle=5 mouse=182 keys=8
+2025-10-29 16:48:34,929 | DEBUG | Saved activity locally: 2025-10-29 11:17:34 -> 2025-10-29 11:18:34
+2025-10-29 16:48:34,996 | INFO | Captured screenshot sc_20251029_111834.jpg (262 KB)
+2025-10-29 16:48:34,997 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:48:34,997 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:48:35,020 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:48:35,056 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:48:35,056 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:49:35,058 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=562 keys=60
+2025-10-29 16:49:35,063 | DEBUG | Saved activity locally: 2025-10-29 11:18:35 -> 2025-10-29 11:19:35
+2025-10-29 16:49:35,130 | INFO | Captured screenshot sc_20251029_111935.jpg (245 KB)
+2025-10-29 16:49:35,130 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:49:35,131 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:49:35,147 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:49:35,214 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:49:35,214 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:50:35,215 | INFO | Collected minute: prod=42 unprod=0 idle=18 mouse=1039 keys=7
+2025-10-29 16:50:35,221 | DEBUG | Saved activity locally: 2025-10-29 11:19:35 -> 2025-10-29 11:20:35
+2025-10-29 16:50:35,294 | INFO | Captured screenshot sc_20251029_112035.jpg (238 KB)
+2025-10-29 16:50:35,295 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:50:35,296 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:50:35,315 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:50:35,358 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:50:35,358 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:51:35,359 | INFO | Collected minute: prod=47 unprod=0 idle=13 mouse=99 keys=0
+2025-10-29 16:51:35,370 | DEBUG | Saved activity locally: 2025-10-29 11:20:35 -> 2025-10-29 11:21:35
+2025-10-29 16:51:35,436 | INFO | Captured screenshot sc_20251029_112135.jpg (244 KB)
+2025-10-29 16:51:35,436 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:51:35,437 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:51:35,453 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:51:35,504 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:51:35,504 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:51:48,740 | DEBUG | Logging initialized. LOG_PATH=C:\xampp\htdocs\TrackerV3\data\agent.log VERBOSE=True
+2025-10-29 16:51:48,740 | INFO | Database initialized at C:\xampp\htdocs\TrackerV3\data\agent.db
+2025-10-29 16:51:48,741 | INFO | ActivityTracker initialized
+2025-10-29 16:51:48,746 | INFO | Listeners started. USERNAME=AdnanKakkattil MACHINE_ID=GRIT-CLT-LT-246 HOSTNAME=GRIT-CLT-LT-246 SERVER=http://localhost:8080
+2025-10-29 16:51:48,746 | INFO | Initial agent settings: sync_interval=60s, screenshots=ENABLED (interval=300s), device_monitoring=DISABLED
+2025-10-29 16:51:48,747 | INFO | NOTE: Settings are updated from server during each sync cycle (current sync_interval=60s). Changes in UI typically reflect within one sync interval.
+2025-10-29 16:52:35,506 | INFO | Collected minute: prod=53 unprod=0 idle=7 mouse=367 keys=16
+2025-10-29 16:52:35,518 | DEBUG | Saved activity locally: 2025-10-29 11:21:35 -> 2025-10-29 11:22:35
+2025-10-29 16:52:35,583 | INFO | Captured screenshot sc_20251029_112235.jpg (165 KB)
+2025-10-29 16:52:35,584 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:52:35,585 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:52:35,595 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:52:35,626 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:52:35,626 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:52:48,748 | INFO | Collected minute: prod=40 unprod=0 idle=20 mouse=283 keys=14
+2025-10-29 16:52:48,760 | DEBUG | Saved activity locally: 2025-10-29 11:21:48 -> 2025-10-29 11:22:48
+2025-10-29 16:52:48,760 | DEBUG | Scanning for USB/external devices... (monitoring: DISABLED - collecting info only)
+2025-10-29 16:52:48,761 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:52:48,762 | DEBUG | Loaded unsynced: 1 activity, 0 screenshots
+2025-10-29 16:52:48,762 | DEBUG | Syncing chunk: 1 activity, 0 screenshots
+2025-10-29 16:52:48,798 | INFO | Cleanup done: deleted 1 activity rows, 0 screenshots (0 files removed)
+2025-10-29 16:52:48,798 | INFO | Sync successful: 1 activity, 0 screenshots
+2025-10-29 16:52:48,799 | INFO | Settings updated from server: sync_interval=60→15s, parallel_workers=1→10, device_monitoring=0→1 (ENABLED), screenshot_interval=300→60s (1min)
+2025-10-29 16:52:48,799 | INFO | Current active settings: sync_interval=15s, parallel_workers=10, delete_screenshots=1, device_monitoring=1, screenshots_enabled=1, screenshot_interval=60s
+2025-10-29 16:53:35,627 | INFO | Collected minute: prod=0 unprod=0 idle=60 mouse=0 keys=0
+2025-10-29 16:53:35,640 | DEBUG | Saved activity locally: 2025-10-29 11:22:35 -> 2025-10-29 11:23:35
+2025-10-29 16:53:35,705 | INFO | Captured screenshot sc_20251029_112335.jpg (214 KB)
+2025-10-29 16:53:35,706 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:53:35,707 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:53:35,721 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:53:35,770 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:53:35,770 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:53:48,799 | INFO | Collected minute: prod=0 unprod=0 idle=60 mouse=0 keys=0
+2025-10-29 16:53:48,809 | DEBUG | Saved activity locally: 2025-10-29 11:22:48 -> 2025-10-29 11:23:48
+2025-10-29 16:53:48,895 | INFO | Captured screenshot sc_20251029_112348.jpg (214 KB)
+2025-10-29 16:53:48,896 | DEBUG | Scanning for USB/external devices... (monitoring: ENABLED)
+2025-10-29 16:53:48,896 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:53:48,897 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:53:48,908 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:53:48,944 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:53:48,944 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:54:35,770 | INFO | Collected minute: prod=0 unprod=0 idle=60 mouse=0 keys=0
+2025-10-29 16:54:35,781 | DEBUG | Saved activity locally: 2025-10-29 11:23:35 -> 2025-10-29 11:24:35
+2025-10-29 16:54:35,851 | INFO | Captured screenshot sc_20251029_112435.jpg (203 KB)
+2025-10-29 16:54:35,852 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:54:35,852 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:54:35,868 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:54:35,931 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:54:35,931 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:54:48,945 | INFO | Collected minute: prod=0 unprod=0 idle=60 mouse=0 keys=0
+2025-10-29 16:54:48,958 | DEBUG | Saved activity locally: 2025-10-29 11:23:48 -> 2025-10-29 11:24:48
+2025-10-29 16:54:49,029 | INFO | Captured screenshot sc_20251029_112448.jpg (202 KB)
+2025-10-29 16:54:49,030 | DEBUG | Scanning for USB/external devices... (monitoring: ENABLED)
+2025-10-29 16:54:49,030 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:54:49,031 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:54:49,050 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:54:49,091 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:54:49,092 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:55:35,932 | INFO | Collected minute: prod=0 unprod=0 idle=60 mouse=0 keys=0
+2025-10-29 16:55:35,944 | DEBUG | Saved activity locally: 2025-10-29 11:24:35 -> 2025-10-29 11:25:35
+2025-10-29 16:55:36,015 | INFO | Captured screenshot sc_20251029_112535.jpg (219 KB)
+2025-10-29 16:55:36,016 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:55:36,018 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:55:36,042 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:55:36,103 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:55:36,103 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:55:49,093 | INFO | Collected minute: prod=0 unprod=0 idle=60 mouse=0 keys=0
+2025-10-29 16:55:49,107 | DEBUG | Saved activity locally: 2025-10-29 11:24:49 -> 2025-10-29 11:25:49
+2025-10-29 16:55:49,172 | INFO | Captured screenshot sc_20251029_112549.jpg (214 KB)
+2025-10-29 16:55:49,174 | DEBUG | Scanning for USB/external devices... (monitoring: ENABLED)
+2025-10-29 16:55:49,174 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:55:49,175 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:55:49,192 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:55:49,274 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:55:49,274 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:56:36,103 | INFO | Collected minute: prod=0 unprod=0 idle=60 mouse=0 keys=0
+2025-10-29 16:56:36,115 | DEBUG | Saved activity locally: 2025-10-29 11:25:36 -> 2025-10-29 11:26:36
+2025-10-29 16:56:36,184 | INFO | Captured screenshot sc_20251029_112636.jpg (203 KB)
+2025-10-29 16:56:36,184 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:56:36,185 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:56:36,204 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:56:36,278 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:56:36,278 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:56:49,275 | INFO | Collected minute: prod=0 unprod=0 idle=60 mouse=0 keys=0
+2025-10-29 16:56:49,287 | DEBUG | Saved activity locally: 2025-10-29 11:25:49 -> 2025-10-29 11:26:49
+2025-10-29 16:56:49,355 | INFO | Captured screenshot sc_20251029_112649.jpg (201 KB)
+2025-10-29 16:56:49,356 | DEBUG | Scanning for USB/external devices... (monitoring: ENABLED)
+2025-10-29 16:56:49,356 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:56:49,358 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:56:49,377 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:56:49,445 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:56:49,445 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:57:36,279 | INFO | Collected minute: prod=40 unprod=0 idle=20 mouse=1331 keys=2
+2025-10-29 16:57:36,288 | DEBUG | Saved activity locally: 2025-10-29 11:26:36 -> 2025-10-29 11:27:36
+2025-10-29 16:57:36,353 | INFO | Captured screenshot sc_20251029_112736.jpg (264 KB)
+2025-10-29 16:57:36,354 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:57:36,355 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:57:36,382 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:57:36,449 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:57:36,450 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:57:49,447 | INFO | Collected minute: prod=27 unprod=0 idle=33 mouse=1331 keys=2
+2025-10-29 16:57:49,458 | DEBUG | Saved activity locally: 2025-10-29 11:26:49 -> 2025-10-29 11:27:49
+2025-10-29 16:57:49,522 | INFO | Captured screenshot sc_20251029_112749.jpg (264 KB)
+2025-10-29 16:57:49,523 | DEBUG | Scanning for USB/external devices... (monitoring: ENABLED)
+2025-10-29 16:57:49,523 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:57:49,525 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:57:49,541 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:57:49,588 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:57:49,588 | INFO | Sync successful: 1 activity, 1 screenshots
+2025-10-29 16:58:36,450 | INFO | Collected minute: prod=60 unprod=0 idle=0 mouse=427 keys=2
+2025-10-29 16:58:36,456 | DEBUG | Saved activity locally: 2025-10-29 11:27:36 -> 2025-10-29 11:28:36
+2025-10-29 16:58:36,519 | INFO | Captured screenshot sc_20251029_112836.jpg (252 KB)
+2025-10-29 16:58:36,520 | DEBUG | WMI not available, using basic USB detection
+2025-10-29 16:58:36,521 | DEBUG | Loaded unsynced: 1 activity, 1 screenshots
+2025-10-29 16:58:36,542 | DEBUG | Syncing chunk: 1 activity, 1 screenshots
+2025-10-29 16:58:36,597 | INFO | Cleanup done: deleted 1 activity rows, 1 screenshots (1 files removed)
+2025-10-29 16:58:36,597 | INFO | Sync successful: 1 activity, 1 screenshots
