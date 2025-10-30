@@ -39,6 +39,8 @@ LOG_PATH = os.path.join(DATA_DIR, 'agent.log')
 INGEST_URL = f"{SERVER_BASE}/api/ingest.php"
 DEVICE_API_URL = f"{SERVER_BASE}/api/device.php"
 PERMISSION_API_URL = f"{SERVER_BASE}/api/permissions.php"
+WEBSITE_API_URL = f"{SERVER_BASE}/api/website.php"
+APPLICATION_API_URL = f"{SERVER_BASE}/api/application.php"
 
 # User and machine info
 USERNAME = os.environ.get('USERNAME') or os.environ.get('USER') or 'unknown'
@@ -59,6 +61,14 @@ DEVICE_CHECK_INTERVAL = int(os.environ.get('TRACKER_DEVICE_CHECK_INTERVAL', '2')
 SCREENSHOTS_ENABLED = os.environ.get('TRACKER_SCREENSHOTS_ENABLED', '1') not in ('0', 'false', 'False')
 SCREENSHOT_INTERVAL = int(os.environ.get('TRACKER_SCREENSHOT_INTERVAL', '300'))  # seconds (default 5 minutes)
 
+# Website monitoring settings (can be overridden by server)
+WEBSITE_MONITORING_ENABLED = os.environ.get('TRACKER_WEBSITE_MONITORING', '1') not in ('0', 'false', 'False')
+WEBSITE_MONITORING_INTERVAL = int(os.environ.get('TRACKER_WEBSITE_MONITORING_INTERVAL', '1'))  # seconds (1s for real-time)
+
+# Application monitoring settings (can be overridden by server)
+APPLICATION_MONITORING_ENABLED = os.environ.get('TRACKER_APPLICATION_MONITORING', '1') not in ('0', 'false', 'False')
+APPLICATION_MONITORING_INTERVAL = int(os.environ.get('TRACKER_APPLICATION_MONITORING_INTERVAL', '2'))  # seconds (2s for real-time)
+
 def is_device_monitoring_enabled():
     """Check if device monitoring is enabled (reads from environment)"""
     return os.environ.get('TRACKER_DEVICE_MONITORING', '0') not in ('0', 'false', 'False')
@@ -70,6 +80,22 @@ def is_screenshots_enabled():
 def get_screenshot_interval():
     """Get screenshot interval in seconds (reads from environment)"""
     return int(os.environ.get('TRACKER_SCREENSHOT_INTERVAL', '300'))
+
+def is_website_monitoring_enabled():
+    """Check if website monitoring is enabled (reads from environment)"""
+    return os.environ.get('TRACKER_WEBSITE_MONITORING', '1') not in ('0', 'false', 'False')
+
+def get_website_monitoring_interval():
+    """Get website monitoring interval in seconds (reads from environment)"""
+    return int(os.environ.get('TRACKER_WEBSITE_MONITORING_INTERVAL', '1'))
+
+def get_application_monitoring_enabled():
+    """Check if application monitoring is enabled (reads from environment)"""
+    return os.environ.get('TRACKER_APPLICATION_MONITORING', '1') not in ('0', 'false', 'False')
+
+def get_application_monitoring_interval():
+    """Get application monitoring interval in seconds (reads from environment)"""
+    return int(os.environ.get('TRACKER_APPLICATION_MONITORING_INTERVAL', '2'))
 
 def update_from_server_response(server_response):
     """Update configuration from server response and log changes"""
@@ -144,6 +170,48 @@ def update_from_server_response(server_response):
         except Exception:
             pass
     
+    # Update website monitoring
+    if 'website_monitoring_enabled' in server_response:
+        val = server_response['website_monitoring_enabled']
+        old_val = os.environ.get('TRACKER_WEBSITE_MONITORING', '1')
+        new_val = '1' if val else '0'
+        os.environ['TRACKER_WEBSITE_MONITORING'] = new_val
+        if old_val != new_val:
+            status = 'ENABLED' if val else 'DISABLED'
+            settings_updated.append(f"website_monitoring={old_val}→{new_val} ({status})")
+    
+    if 'website_monitoring_interval_seconds' in server_response:
+        try:
+            interval = int(server_response['website_monitoring_interval_seconds'])
+            if interval >= 1:  # Minimum 1 second (real-time)
+                old_val = os.environ.get('TRACKER_WEBSITE_MONITORING_INTERVAL', '1')
+                os.environ['TRACKER_WEBSITE_MONITORING_INTERVAL'] = str(interval)
+                if old_val != str(interval):
+                    settings_updated.append(f"website_monitoring_interval={old_val}→{interval}s ({'real-time' if interval <= 1 else 'normal'})")
+        except Exception:
+            pass
+    
+    # Update application monitoring
+    if 'application_monitoring_enabled' in server_response:
+        val = server_response['application_monitoring_enabled']
+        old_val = os.environ.get('TRACKER_APPLICATION_MONITORING', '1')
+        new_val = '1' if val else '0'
+        os.environ['TRACKER_APPLICATION_MONITORING'] = new_val
+        if old_val != new_val:
+            status = 'ENABLED' if val else 'DISABLED'
+            settings_updated.append(f"application_monitoring={old_val}→{new_val} ({status})")
+    
+    if 'application_monitoring_interval_seconds' in server_response:
+        try:
+            interval = int(server_response['application_monitoring_interval_seconds'])
+            if interval >= 1:  # Minimum 1 second
+                old_val = os.environ.get('TRACKER_APPLICATION_MONITORING_INTERVAL', '2')
+                os.environ['TRACKER_APPLICATION_MONITORING_INTERVAL'] = str(interval)
+                if old_val != str(interval):
+                    settings_updated.append(f"application_monitoring_interval={old_val}→{interval}s")
+        except Exception:
+            pass
+    
     # Log all setting changes
     if settings_updated:
         log.info('Settings updated from server: %s', ', '.join(settings_updated))
@@ -155,11 +223,14 @@ def update_from_server_response(server_response):
         'delete_screenshots': os.environ.get('TRACKER_DELETE_SCREENSHOTS', '1'),
         'device_monitoring': os.environ.get('TRACKER_DEVICE_MONITORING', '0'),
         'screenshots_enabled': os.environ.get('TRACKER_SCREENSHOTS_ENABLED', '1'),
-        'screenshot_interval': os.environ.get('TRACKER_SCREENSHOT_INTERVAL', '300')
+        'screenshot_interval': os.environ.get('TRACKER_SCREENSHOT_INTERVAL', '300'),
+        'website_monitoring': os.environ.get('TRACKER_WEBSITE_MONITORING', '1'),
+        'website_monitoring_interval': os.environ.get('TRACKER_WEBSITE_MONITORING_INTERVAL', '1')
     }
     if settings_updated:
-        log.info('Current active settings: sync_interval=%ss, parallel_workers=%s, delete_screenshots=%s, device_monitoring=%s, screenshots_enabled=%s, screenshot_interval=%ss',
+        log.info('Current active settings: sync_interval=%ss, parallel_workers=%s, delete_screenshots=%s, device_monitoring=%s, screenshots_enabled=%s, screenshot_interval=%ss, website_monitoring=%s, website_monitoring_interval=%ss',
                  current_settings['sync_interval'], current_settings['parallel_workers'],
                  current_settings['delete_screenshots'], current_settings['device_monitoring'],
-                 current_settings['screenshots_enabled'], current_settings['screenshot_interval'])
+                 current_settings['screenshots_enabled'], current_settings['screenshot_interval'],
+                 current_settings['website_monitoring'], current_settings['website_monitoring_interval'])
 

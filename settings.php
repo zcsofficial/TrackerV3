@@ -11,7 +11,7 @@ if ($user['role'] !== 'superadmin' && $user['role'] !== 'admin') {
 $pdo = db();
 
 // Load current setting
-$stmt = $pdo->prepare('SELECT `key`, `value` FROM settings WHERE `key` IN ("productive_hours_per_day_seconds","agent_sync_interval_seconds","parallel_sync_workers","delete_screenshots_after_sync","agent_install_path","device_monitoring_enabled","screenshots_enabled","screenshot_interval_seconds")');
+$stmt = $pdo->prepare('SELECT `key`, `value` FROM settings WHERE `key` IN ("productive_hours_per_day_seconds","agent_sync_interval_seconds","parallel_sync_workers","delete_screenshots_after_sync","agent_install_path","device_monitoring_enabled","screenshots_enabled","screenshot_interval_seconds","website_monitoring_enabled","website_monitoring_interval_seconds","application_monitoring_enabled","application_monitoring_interval_seconds")');
 $stmt->execute();
 $kv = [];
 foreach ($stmt->fetchAll() as $r) { $kv[$r['key']] = $r['value']; }
@@ -24,6 +24,10 @@ $installPath = $kv['agent_install_path'] ?? '';
 $deviceMonitoring = (int)($kv['device_monitoring_enabled'] ?? 0);
 $screenshotsEnabled = (int)($kv['screenshots_enabled'] ?? 1);
 $screenshotInterval = (int)($kv['screenshot_interval_seconds'] ?? 300);
+$websiteMonitoring = (int)($kv['website_monitoring_enabled'] ?? 1);
+$websiteMonitoringInterval = (int)($kv['website_monitoring_interval_seconds'] ?? 1);
+$applicationMonitoring = (int)($kv['application_monitoring_enabled'] ?? 1);
+$applicationMonitoringInterval = (int)($kv['application_monitoring_interval_seconds'] ?? 2);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $h = (float)($_POST['productive_hours'] ?? 8);
@@ -56,12 +60,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $screenshotInterval = (int)($_POST['screenshot_interval_seconds'] ?? 300);
     if ($screenshotInterval < 60) { $screenshotInterval = 60; }  // Minimum 60 seconds
     $up->execute(['screenshot_interval_seconds', (string)$screenshotInterval]);
+
+    $websiteMonitoring = isset($_POST['website_monitoring_enabled']) ? 1 : 0;
+    $up->execute(['website_monitoring_enabled', (string)$websiteMonitoring]);
+
+    $websiteMonitoringInterval = (int)($_POST['website_monitoring_interval_seconds'] ?? 1);
+    if ($websiteMonitoringInterval < 1) { $websiteMonitoringInterval = 1; }  // Minimum 1 second (real-time)
+    $up->execute(['website_monitoring_interval_seconds', (string)$websiteMonitoringInterval]);
+
+    $applicationMonitoring = isset($_POST['application_monitoring_enabled']) ? 1 : 0;
+    $up->execute(['application_monitoring_enabled', (string)$applicationMonitoring]);
+
+    $applicationMonitoringInterval = (int)($_POST['application_monitoring_interval_seconds'] ?? 2);
+    if ($applicationMonitoringInterval < 1) { $applicationMonitoringInterval = 1; }  // Minimum 1 second
+    $up->execute(['application_monitoring_interval_seconds', (string)$applicationMonitoringInterval]);
     
 	header('Location: ' . BASE_URL . 'settings.php?saved=1');
 	exit;
 }
 
-render_layout('Settings', function() use ($hours, $syncInterval, $parallelWorkers, $deleteScreenshots, $installPath, $deviceMonitoring, $screenshotsEnabled, $screenshotInterval) { ?>
+render_layout('Settings', function() use ($hours, $syncInterval, $parallelWorkers, $deleteScreenshots, $installPath, $deviceMonitoring, $screenshotsEnabled, $screenshotInterval, $websiteMonitoring, $websiteMonitoringInterval, $applicationMonitoring, $applicationMonitoringInterval) { ?>
     <h5>Settings</h5>
     <?php if (!empty($_GET['saved'])): ?>
     <div class="alert alert-success">Saved.</div>
@@ -128,6 +146,40 @@ render_layout('Settings', function() use ($hours, $syncInterval, $parallelWorker
                 </label>
             </div>
             <div class="form-text">When enabled, agents can monitor external device connections. Individual agents can still have monitoring enabled/disabled per-machine in the Devices page.</div>
+        </div>
+        <div class="mt-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="website_monitoring_enabled" id="websiteMonitoring" value="1" <?php echo $websiteMonitoring ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="websiteMonitoring">
+                    Enable website monitoring globally
+                </label>
+            </div>
+            <div class="form-text">When enabled, agents will monitor browser tabs, URLs, and website visits (including incognito/private mode).</div>
+        </div>
+        <div class="mt-3">
+            <label class="form-label">Website monitoring interval</label>
+            <div class="input-group">
+                <input type="number" class="form-control" name="website_monitoring_interval_seconds" min="1" step="1" value="<?php echo htmlspecialchars((string)$websiteMonitoringInterval); ?>">
+                <span class="input-group-text">seconds</span>
+            </div>
+            <div class="form-text">Interval between browser tab scans (minimum 1 second). 1 second = real-time monitoring.</div>
+        </div>
+        <div class="mt-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="application_monitoring_enabled" id="applicationMonitoring" value="1" <?php echo $applicationMonitoring ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="applicationMonitoring">
+                    Enable application monitoring globally
+                </label>
+            </div>
+            <div class="form-text">When enabled, agents will track running applications, usage time, and categorize them as productive/unproductive (like ActivTrak).</div>
+        </div>
+        <div class="mt-3">
+            <label class="form-label">Application monitoring interval</label>
+            <div class="input-group">
+                <input type="number" class="form-control" name="application_monitoring_interval_seconds" min="1" step="1" value="<?php echo htmlspecialchars((string)$applicationMonitoringInterval); ?>">
+                <span class="input-group-text">seconds</span>
+            </div>
+            <div class="form-text">Interval between application scans (minimum 1 second). 2 seconds = recommended for smooth tracking.</div>
         </div>
         <button class="btn btn-primary mt-3" type="submit">Save</button>
     </form>

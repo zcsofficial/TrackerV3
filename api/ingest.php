@@ -6,7 +6,8 @@
 //   "machine_id": "WIN-ABC123",
 //   "hostname": "MYPC",
 //   "activity": [ { start_time, end_time, productive_seconds, unproductive_seconds, idle_seconds, mouse_moves, key_presses }... ],
-//   "screenshots": [ { taken_at, filename, data_base64 } ... ]
+//   "screenshots": [ { taken_at, filename, data_base64 } ... ],
+//   "application_usage": [ { application_name, process_name, window_title, executable_path, session_start, session_end, duration_seconds, is_productive } ... ]
 // }
 require_once __DIR__ . '/../config.php';
 
@@ -84,6 +85,63 @@ try {
 		}
 	}
 
+    // Application usage
+    $appFind = $pdo->prepare('SELECT id FROM applications WHERE process_name = ? LIMIT 1');
+    $appIns = $pdo->prepare('INSERT INTO applications (name, process_name, executable_path, first_seen, last_seen, total_sessions, total_usage_seconds) VALUES (?, ?, ?, ?, ?, 0, 0)');
+    $appUpd = $pdo->prepare('UPDATE applications SET name = COALESCE(?, name), executable_path = COALESCE(?, executable_path), last_seen = ?, total_sessions = total_sessions + 1, total_usage_seconds = total_usage_seconds + ? WHERE id = ?');
+    $usageIns = $pdo->prepare('INSERT INTO application_usage (user_id, machine_id, application_id, application_name, process_name, window_title, session_start, session_end, duration_seconds, is_productive) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $timelineIns = $pdo->prepare('INSERT INTO activity_timeline (user_id, machine_id, activity_type, application_id, item_name, item_detail, start_time, end_time, duration_seconds, is_productive) VALUES (?, ?, "application", ?, ?, ?, ?, ?, ?, ?)');
+    foreach (($json['application_usage'] ?? []) as $u) {
+        $appName = trim($u['application_name'] ?? '');
+        $processName = trim($u['process_name'] ?? '');
+        if ($processName === '') { continue; }
+        $windowTitle = $u['window_title'] ?? null;
+        $exePath = $u['executable_path'] ?? null;
+        $start = $u['session_start'] ?? date('Y-m-d H:i:s');
+        $end = $u['session_end'] ?? null;
+        $dur = (int)($u['duration_seconds'] ?? 0);
+        $isProd = isset($u['is_productive']) ? (int)$u['is_productive'] : null;
+
+        // Upsert application catalog row
+        $appId = null;
+        $appFind->execute([$processName]);
+        $found = $appFind->fetch();
+        if ($found) {
+            $appId = (int)$found['id'];
+            $appUpd->execute([$appName ?: null, $exePath ?: null, $end ?: $start, max($dur,0), $appId]);
+        } else {
+            $appIns->execute([$appName ?: null, $processName, $exePath ?: null, $start, $end ?: $start]);
+            $appId = (int)$pdo->lastInsertId();
+            // update aggregates for first insert
+            $appUpd->execute([$appName ?: null, $exePath ?: null, $end ?: $start, max($dur,0), $appId]);
+        }
+
+        // Insert usage row
+        $usageIns->execute([
+            (int)$user['id'],
+            $machineId,
+            $appId,
+            $appName !== '' ? $appName : $processName,
+            $processName,
+            $windowTitle,
+            $start,
+            $end,
+            $dur,
+            $isProd
+        ]);
+        $timelineIns->execute([
+            (int)$user['id'],
+            $machineId,
+            $appId,
+            $appName !== '' ? $appName : $processName,
+            $windowTitle ?: $processName,
+            $start,
+            $end,
+            max($dur,0),
+            $isProd
+        ]);
+    }
+
     $pdo->commit();
 } catch (Throwable $e) {
 	$pdo->rollBack();
@@ -93,8 +151,8 @@ try {
 }
 
 // Return status + current server settings so agent can adapt
-$s = $pdo->prepare('SELECT `key`, `value` FROM settings WHERE `key` IN (?, ?, ?, ?, ?, ?)');
-$s->execute(['agent_sync_interval_seconds', 'parallel_sync_workers', 'delete_screenshots_after_sync', 'device_monitoring_enabled', 'screenshots_enabled', 'screenshot_interval_seconds']);
+$s = $pdo->prepare('SELECT `key`, `value` FROM settings WHERE `key` IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+$s->execute(['agent_sync_interval_seconds', 'parallel_sync_workers', 'delete_screenshots_after_sync', 'device_monitoring_enabled', 'screenshots_enabled', 'screenshot_interval_seconds', 'website_monitoring_enabled', 'website_monitoring_interval_seconds', 'application_monitoring_enabled', 'application_monitoring_interval_seconds']);
 $settings = [];
 foreach ($s->fetchAll() as $row) {
     $settings[$row['key']] = $row['value'];
@@ -105,6 +163,10 @@ $deleteScreenshots = (int)($settings['delete_screenshots_after_sync'] ?? 1);
 $deviceMonitoring = (int)($settings['device_monitoring_enabled'] ?? 0);
 $screenshotsEnabled = (int)($settings['screenshots_enabled'] ?? 1);
 $screenshotInterval = (int)($settings['screenshot_interval_seconds'] ?? 300);
+$websiteMonitoringEnabled = (int)($settings['website_monitoring_enabled'] ?? 1);
+$websiteMonitoringInterval = (int)($settings['website_monitoring_interval_seconds'] ?? 1);
+$applicationMonitoringEnabled = (int)($settings['application_monitoring_enabled'] ?? 1);
+$applicationMonitoringInterval = (int)($settings['application_monitoring_interval_seconds'] ?? 2);
 
 // Check if device monitoring is enabled for this specific machine
 $deviceMonitoringEnabled = 0;
@@ -128,7 +190,11 @@ echo json_encode([
     'delete_screenshots_after_sync' => (bool)$deleteScreenshots,
     'device_monitoring_enabled' => (bool)$deviceMonitoringEnabled,
     'screenshots_enabled' => (bool)$screenshotsEnabled,
-    'screenshot_interval_seconds' => $screenshotInterval
+    'screenshot_interval_seconds' => $screenshotInterval,
+    'website_monitoring_enabled' => (bool)$websiteMonitoringEnabled,
+    'website_monitoring_interval_seconds' => $websiteMonitoringInterval,
+    'application_monitoring_enabled' => (bool)$applicationMonitoringEnabled,
+    'application_monitoring_interval_seconds' => $applicationMonitoringInterval
 ]);
 
 

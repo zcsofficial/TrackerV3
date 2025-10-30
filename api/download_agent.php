@@ -4,7 +4,7 @@ require_once __DIR__ . '/../config.php';
 
 // Get the file to download (default: agent.py for backward compatibility)
 $file = $_GET['file'] ?? 'agent.py';
-$allowedFiles = ['agent.py', 'config.py', 'monitoring.py', 'permission.py'];
+$allowedFiles = ['agent.py', 'config.py', 'monitoring.py', 'permission.py', 'browser_monitoring.py'];
 
 // Security: only allow specific files
 if (!in_array($file, $allowedFiles)) {

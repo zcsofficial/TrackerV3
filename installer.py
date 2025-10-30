@@ -1,6 +1,7 @@
 """
 TrackerV3 Agent Installer
 Downloads the agent from the server and installs it to ProgramData folder
+Requires administrator privileges for optimal functionality
 """
 import os
 import sys
@@ -11,6 +12,50 @@ import urllib.error
 import json
 import socket
 import time
+import ctypes
+
+def is_admin():
+    """Check if running with administrator privileges"""
+    try:
+        if sys.platform == 'win32':
+            return ctypes.windll.shell32.IsUserAnAdmin() != 0
+        else:
+            return os.geteuid() == 0
+    except Exception:
+        return False
+
+def request_admin():
+    """Request administrator privileges on Windows"""
+    if sys.platform == 'win32':
+        if not is_admin():
+            print("\n⚠️  Administrator privileges required for optimal monitoring!")
+            print("   Website monitoring and device blocking work better with admin rights.")
+            print("\n   Requesting administrator privileges...")
+            try:
+                # Re-run with admin privileges
+                ctypes.windll.shell32.ShellExecuteW(
+                    None,
+                    "runas",
+                    sys.executable,
+                    f'"{__file__}"',
+                    None,
+                    1  # SW_SHOWNORMAL
+                )
+                sys.exit(0)
+            except Exception as e:
+                print(f"   Failed to request admin privileges: {e}")
+                print("   Continuing without admin privileges (some features may be limited)...")
+                response = input("\n   Continue anyway? (y/n): ").strip().lower()
+                if response != 'y':
+                    sys.exit(1)
+        else:
+            print("✓ Running with administrator privileges")
+    else:
+        if os.geteuid() != 0:
+            print("\n⚠️  Root privileges recommended for system-wide installation")
+            response = input("   Continue without root? (y/n): ").strip().lower()
+            if response != 'y':
+                sys.exit(1)
 
 # Default installation path - ProgramData on Windows
 if sys.platform == 'win32':
@@ -47,7 +92,7 @@ def get_server_base():
 
 def download_agent_files(server_base):
     """Download all agent files from server"""
-    files_to_download = ['agent.py', 'config.py', 'monitoring.py', 'permission.py']
+    files_to_download = ['agent.py', 'config.py', 'monitoring.py', 'permission.py', 'browser_monitoring.py']
     downloaded_files = {}
     
     print(f"\nDownloading agent files from server...")
@@ -98,6 +143,7 @@ pillow>=10.0.0
 requests>=2.31.0
 wmi>=1.5.1
 pywin32>=306
+mss>=9.0.1
 """)
         print(f"✓ Requirements file created: {requirements_path}")
         
@@ -151,21 +197,55 @@ def install_dependencies():
 def create_startup_script():
     """Create a script to run the agent"""
     if sys.platform == 'win32':
-        # Windows batch file
+        # Windows batch file (request admin)
         script_path = os.path.join(INSTALL_DIR, 'start_agent.bat')
         with open(script_path, 'w') as f:
             f.write(f"""@echo off
+:: Check for admin privileges
+net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Requesting administrator privileges for optimal monitoring...
+    powershell -Command "Start-Process cmd -ArgumentList '/c cd /d \"{INSTALL_DIR}\" && pythonw agent.py' -Verb RunAs"
+    exit
+)
+
 cd /d "{INSTALL_DIR}"
 pythonw agent.py
 """)
-        print(f"✓ Startup script created: {script_path}")
+        print(f"✓ Startup script created: {script_path} (requests admin privileges)")
         
-        # Also create PowerShell version
+        # Also create PowerShell version (with admin request)
         ps_path = os.path.join(INSTALL_DIR, 'start_agent.ps1')
         with open(ps_path, 'w') as f:
-            f.write(f"""Set-Location "{INSTALL_DIR}"
-Start-Process pythonw -ArgumentList "agent.py" -WindowStyle Hidden
+            f.write(f"""# Check for admin privileges
+$isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+
+if (-not $isAdmin) {{
+    Write-Host "Requesting administrator privileges for optimal monitoring..."
+    Start-Process powershell -ArgumentList "-File `"$PSCommandPath`"" -Verb RunAs
+    exit
+}}
+
+Set-Location "{INSTALL_DIR}"
+Start-Process pythonw -ArgumentList "agent.py" -WindowStyle Hidden -Verb RunAs
 """)
+        
+        # Create admin launcher batch file
+        admin_bat = os.path.join(INSTALL_DIR, 'start_agent_admin.bat')
+        with open(admin_bat, 'w') as f:
+            f.write(f"""@echo off
+:: Check for admin privileges
+net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Requesting administrator privileges...
+    powershell -Command "Start-Process cmd -ArgumentList '/c \"%~s0\"' -Verb RunAs"
+    exit
+)
+
+cd /d "{INSTALL_DIR}"
+pythonw agent.py
+""")
+        print(f"✓ Admin launcher created: {admin_bat}")
     else:
         # Linux/Mac shell script
         script_path = os.path.join(INSTALL_DIR, 'start_agent.sh')
@@ -176,6 +256,33 @@ python3 agent.py &
 """)
         os.chmod(script_path, 0o755)
         print(f"✓ Startup script created: {script_path}")
+
+def create_scheduled_task():
+    """Create a Windows Scheduled Task to run the agent at user logon with highest privileges (optional)."""
+    if sys.platform != 'win32':
+        return False
+    try:
+        task_name = 'TrackerV3Agent'
+        python_dir = os.path.dirname(sys.executable)
+        pythonw_path = os.path.join(python_dir, 'pythonw.exe')
+        if not os.path.exists(pythonw_path):
+            pythonw_path = sys.executable
+        # schtasks create command
+        cmd = [
+            'schtasks', '/Create', '/TN', task_name,
+            '/TR', f'"{pythonw_path}" "{os.path.join(INSTALL_DIR, "agent.py")}"',
+            '/SC', 'ONLOGON', '/RL', 'HIGHEST', '/F'
+        ]
+        result = subprocess.run(cmd, capture_output=True, text=True, creationflags=0x08000000)
+        if result.returncode == 0:
+            print(f"✓ Scheduled Task created: {task_name} (runs at logon, highest privileges)")
+            return True
+        else:
+            print(f"⚠️ Failed to create Scheduled Task: {result.stderr.strip()}")
+            return False
+    except Exception as e:
+        print(f"⚠️ Error creating Scheduled Task: {e}")
+        return False
 
 def register_agent(server_base):
     """Register/onboard the agent with the server"""
@@ -245,7 +352,7 @@ def register_agent(server_base):
         return False
 
 def start_agent():
-    """Start the agent in the background"""
+    """Start the agent in the background with admin privileges"""
     agent_path = os.path.join(INSTALL_DIR, 'agent.py')
     
     if not os.path.exists(agent_path):
@@ -254,15 +361,44 @@ def start_agent():
     
     try:
         if sys.platform == 'win32':
-            # Windows: Find pythonw.exe in same directory as python.exe
+            # Use the admin launcher script to start with admin privileges
+            admin_bat = os.path.join(INSTALL_DIR, 'start_agent_admin.bat')
+            if os.path.exists(admin_bat):
+                # Start via admin launcher
+                subprocess.Popen(
+                    ['cmd', '/c', admin_bat],
+                    creationflags=subprocess.CREATE_NO_WINDOW,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    stdin=subprocess.DEVNULL
+                )
+                print("✓ Agent started via admin launcher")
+                return True
+            
+            # Fallback: Try to start directly with admin
             python_dir = os.path.dirname(sys.executable)
             pythonw_path = os.path.join(python_dir, 'pythonw.exe')
             
-            # Use pythonw if available, otherwise use python
             if os.path.exists(pythonw_path):
                 exe = pythonw_path
             else:
                 exe = sys.executable
+            
+            # Try to start with elevated privileges
+            try:
+                ctypes.windll.shell32.ShellExecuteW(
+                    None,
+                    "runas",
+                    exe,
+                    f'"{agent_path}"',
+                    INSTALL_DIR,
+                    0  # SW_HIDE
+                )
+                print("✓ Agent started with admin privileges")
+                return True
+            except Exception:
+                # Fallback to normal start
+                pass
             
             # Windows constants for process creation
             CREATE_NO_WINDOW = 0x08000000
@@ -328,6 +464,9 @@ def start_agent():
 
 def main():
     """Main installation process"""
+    # Request admin privileges first
+    request_admin()
+    
     try:
         server_base = get_server_base()
         
@@ -347,6 +486,9 @@ def main():
         
         # Create startup scripts
         create_startup_script()
+        # Optionally create a Scheduled Task for persistence/elevation
+        if os.environ.get('TRACKER_CREATE_SCHEDULED_TASK', '0') not in ('0','false','False'):
+            create_scheduled_task()
         
         print("\n" + "=" * 50)
         print("✓ Installation completed successfully!")

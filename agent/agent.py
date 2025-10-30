@@ -19,6 +19,13 @@ sys.path.insert(0, APP_DIR)
 try:
     import psutil
     from pynput import mouse, keyboard
+    # Prefer mss for fast screen capture; fall back to PIL ImageGrab
+    try:
+        import mss
+        import mss.tools
+        _HAS_MSS = True
+    except Exception:
+        _HAS_MSS = False
     from PIL import ImageGrab, Image
     import requests
     from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -36,10 +43,12 @@ try:
     from config import update_from_server_response
     import monitoring
     import permission
+    import browser_monitoring
+    import application_monitoring
 except ImportError as e:
     # Fallback for standalone execution
     print(f"Error: Could not import modules: {e}")
-    print("Make sure config.py, monitoring.py, and permission.py exist in the agent directory.")
+    print("Make sure config.py, monitoring.py, permission.py, browser_monitoring.py, and application_monitoring.py exist in the agent directory.")
     sys.exit(1)
 
 VERBOSE = os.environ.get('TRACKER_VERBOSE', '1') not in ('0', 'false', 'False')
@@ -177,22 +186,47 @@ def save_activity_local(record):
 
 def capture_screenshot():
     now = datetime.utcnow()
-    img = ImageGrab.grab()
-    # Compress to JPEG aiming for KBs
-    fname = now.strftime('sc_%Y%m%d_%H%M%S.jpg')
+    # Choose format and quality via env vars (defaults: JPEG, quality 40)
+    fmt = os.environ.get('TRACKER_SCREENSHOT_FORMAT', 'JPEG').upper()
+    quality = int(os.environ.get('TRACKER_SCREENSHOT_QUALITY', '40'))
+    if fmt not in ('JPEG', 'WEBP', 'PNG'):
+        fmt = 'JPEG'
+    ext = 'jpg' if fmt == 'JPEG' else ('webp' if fmt == 'WEBP' else 'png')
+    fname = now.strftime(f'sc_%Y%m%d_%H%M%S.{ext}')
     path = os.path.join(SCREEN_DIR, fname)
-    img = img.convert('RGB')
-    img.save(path, format='JPEG', optimize=True, quality=40)
-    con = sqlite3.connect(DB_PATH)
-    cur = con.cursor()
-    cur.execute('INSERT INTO screenshots (taken_at, filename, synced) VALUES (?,?,0)', (now.strftime('%Y-%m-%d %H:%M:%S'), fname))
-    con.commit()
-    con.close()
+
     try:
-        size_kb = int(os.path.getsize(path) / 1024)
-    except Exception:
-        size_kb = -1
-    log.info('Captured screenshot %s (%s KB)', fname, size_kb)
+        if _HAS_MSS:
+            with mss.mss() as sct:
+                monitor = sct.monitors[1] if len(sct.monitors) > 1 else sct.monitors[0]
+                frame = sct.grab(monitor)
+                # Convert raw BGRA to PIL Image for consistent encoding options
+                img = Image.frombytes('RGB', frame.size, frame.rgb)
+        else:
+            img = ImageGrab.grab().convert('RGB')
+
+        save_kwargs = {}
+        if fmt in ('JPEG', 'WEBP'):
+            save_kwargs.update({'optimize': True})
+            if fmt == 'JPEG':
+                save_kwargs.update({'quality': quality})
+            if fmt == 'WEBP':
+                save_kwargs.update({'quality': quality})
+
+        img.save(path, format=fmt, **save_kwargs)
+
+        con = sqlite3.connect(DB_PATH)
+        cur = con.cursor()
+        cur.execute('INSERT INTO screenshots (taken_at, filename, synced) VALUES (?,?,0)', (now.strftime('%Y-%m-%d %H:%M:%S'), fname))
+        con.commit()
+        con.close()
+        try:
+            size_kb = int(os.path.getsize(path) / 1024)
+        except Exception:
+            size_kb = -1
+        log.info('Captured screenshot %s (%s KB) using %s', fname, size_kb, 'mss' if _HAS_MSS else 'ImageGrab')
+    except Exception as e:
+        log.warning('Screenshot capture failed: %s', e)
 
 
 def load_unsynced():
@@ -386,6 +420,19 @@ def sync_now():
 
 def main():
     init_db()
+    
+    # Check for admin privileges
+    try:
+        import ctypes
+        is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
+        if not is_admin:
+            log.warning("⚠️ Agent is NOT running with administrator privileges!")
+            log.warning("   Website monitoring and device blocking work better with admin rights.")
+            log.warning("   Consider running as administrator: Right-click agent.py -> Run as administrator")
+        else:
+            log.info("✓ Running with administrator privileges")
+    except Exception:
+        pass
 
     tracker = ActivityTracker()
     m_listener = mouse.Listener(on_move=tracker.on_move, on_click=tracker.on_click, on_scroll=tracker.on_scroll)
@@ -395,30 +442,44 @@ def main():
     log.info('Listeners started. USERNAME=%s MACHINE_ID=%s HOSTNAME=%s SERVER=%s', USERNAME, MACHINE_ID, HOSTNAME, SERVER_BASE)
 
     # Log initial settings on startup
-    from config import is_screenshots_enabled, get_screenshot_interval, is_device_monitoring_enabled
-    log.info('Initial agent settings: sync_interval=%ss, screenshots=%s (interval=%ss), device_monitoring=%s',
+    from config import (
+        is_screenshots_enabled, get_screenshot_interval, 
+        is_device_monitoring_enabled, 
+        is_website_monitoring_enabled, get_website_monitoring_interval,
+        get_application_monitoring_enabled, get_application_monitoring_interval
+    )
+    log.info('Initial agent settings: sync_interval=%ss, screenshots=%s (interval=%ss), device_monitoring=%s, website_monitoring=%s (interval=%ss), application_monitoring=%s (interval=%ss)',
              os.environ.get('TRACKER_SYNC_INTERVAL', '10'),
              'ENABLED' if is_screenshots_enabled() else 'DISABLED',
              get_screenshot_interval(),
-             'ENABLED' if is_device_monitoring_enabled() else 'DISABLED')
+             'ENABLED' if is_device_monitoring_enabled() else 'DISABLED',
+             'ENABLED' if is_website_monitoring_enabled() else 'DISABLED',
+             get_website_monitoring_interval(),
+             'ENABLED' if get_application_monitoring_enabled() else 'DISABLED',
+             get_application_monitoring_interval())
     log.info('NOTE: Settings are updated from server during each sync cycle (current sync_interval=%ss). Changes in UI typically reflect within one sync interval.',
              os.environ.get('TRACKER_SYNC_INTERVAL', '10'))
 
     last_screenshot = time.time()
     last_device_scan = time.time()
+    last_website_scan = time.time()
+    last_application_scan = time.time()
     interval_env = os.environ.get('TRACKER_SYNC_INTERVAL')
     loop_interval = int(interval_env) if (interval_env and interval_env.isdigit()) else 10
     
     # Get screenshot settings from config
     screenshot_interval = get_screenshot_interval()
+    website_monitoring_interval = get_website_monitoring_interval()
+    application_monitoring_interval = get_application_monitoring_interval()
+    
+    # Real-time monitoring: use 1 second sleep for frequent checks
+    last_sync_time = time.time()
     
     while True:
         try:
-            if loop_interval < 15:
-                loop_interval = 15
-            time.sleep(loop_interval)
+            current_time = time.time()
             
-            # Collect activity
+            # Collect activity (every minute)
             record = tracker.collect_minute()
             save_activity_local(record)
 
@@ -426,23 +487,50 @@ def main():
             if is_screenshots_enabled():
                 # Update screenshot interval from environment (may have been updated by server)
                 screenshot_interval = get_screenshot_interval()
-                if time.time() - last_screenshot >= screenshot_interval:
+                if current_time - last_screenshot >= screenshot_interval:
                     capture_screenshot()
-                    last_screenshot = time.time()
+                    last_screenshot = current_time
 
             # Device monitoring (scans every 2 seconds for REAL-TIME detection)
             # ALWAYS scans - collects device info even if monitoring is disabled
-            # This allows admin to view devices in UI and block/unblock later
-            if time.time() - last_device_scan >= 2:  # Scan every 2 seconds for real-time response
+            if current_time - last_device_scan >= 2:  # Scan every 2 seconds for real-time response
                 try:
                     monitoring.scan_devices()  # Always scans - info collection + blocking if enabled
-                    last_device_scan = time.time()
+                    last_device_scan = current_time
                 except Exception as e:
                     log.warning(f"Device scan error: {e}")
-                    time.sleep(1)  # Brief pause on error
 
-            # Sync
-            sync_now()
+            # Website monitoring (browser tabs) - REAL-TIME (scans every 1 second when interval <= 1)
+            if is_website_monitoring_enabled():
+                # Update interval from environment (may have been updated by server)
+                website_monitoring_interval = get_website_monitoring_interval()
+                # Scan based on interval (1 second = real-time)
+                if current_time - last_website_scan >= website_monitoring_interval:
+                    try:
+                        browser_monitoring.scan_browser_tabs()
+                        last_website_scan = current_time
+                    except Exception as e:
+                        log.warning(f"Browser scan error: {e}")
+
+            # Application monitoring - REAL-TIME (scans every 2 seconds)
+            if get_application_monitoring_enabled():
+                # Update interval from environment (may have been updated by server)
+                application_monitoring_interval = get_application_monitoring_interval()
+                # Scan based on interval
+                if current_time - last_application_scan >= application_monitoring_interval:
+                    try:
+                        application_monitoring.scan_applications()
+                        last_application_scan = current_time
+                    except Exception as e:
+                        log.warning(f"Application scan error: {e}")
+
+            # Sync (only at sync interval) - check every iteration but only sync when needed
+            if current_time - last_sync_time >= loop_interval:
+                sync_now()
+                last_sync_time = current_time
+            
+            # Sleep 1 second for real-time monitoring (allows frequent checks)
+            time.sleep(1)
             
         except KeyboardInterrupt:
             log.info('Interrupted by user. Exiting...')
