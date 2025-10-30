@@ -12843,3 +12843,66 @@
 2025-10-29 18:42:14,325 | DEBUG | Saved activity locally: 2025-10-29 13:11:14 -> 2025-10-29 13:12:14
 2025-10-29 18:42:14,325 | INFO | 🔍 Scanning for USB/external devices... (monitoring: ENABLED)
 2025-10-29 18:42:14,327 | DEBUG | Using WMI for device detection...
+2025-10-29 18:42:19,086 | DEBUG |   Skipping internal hardware: HID-compliant consumer control device
+2025-10-29 18:42:19,104 | DEBUG |   Skipping internal hardware: USB Input Device
+2025-10-29 18:42:19,119 | DEBUG |   Skipping built-in keyboard/mouse: HID Keyboard Device
+2025-10-29 18:42:19,122 | DEBUG |   Device has VID/PID but not explicitly external: HID-compliant vendor-defined device
+2025-10-29 18:42:19,154 | DEBUG |   Skipping internal hardware: Microsoft Bluetooth LE Enumerator
+2025-10-29 18:42:19,176 | DEBUG |   Skipping internal hardware: Volume Manager
+2025-10-29 18:42:19,188 | DEBUG |   Skipping internal USB Composite Device (no VID/PID or external marker): USB Composite Device
+2025-10-29 18:42:19,192 | DEBUG |   Skipping internal hardware: USB Root Hub (USB 3.0)
+2025-10-29 18:42:19,202 | DEBUG |   Skipping internal hardware: ISWD Micron_2400_MTFDKBA1T0QFM
+2025-10-29 18:42:19,219 | DEBUG |   Skipping internal hardware: Microsoft Hyper-V Virtual Machine Bus Provider
+2025-10-29 18:42:19,223 | DEBUG |   Skipping internal hardware: Microsoft Basic Display Driver
+2025-10-29 18:42:19,226 | DEBUG |   Skipping internal hardware: HID-compliant consumer control device
+2025-10-29 18:42:19,246 | DEBUG |   Skipping internal hardware: Microsoft Hypervisor Service
+2025-10-29 18:42:19,260 | DEBUG |   Skipping internal hardware: VirtualBox Host-Only Ethernet Adapter
+2025-10-29 18:42:19,268 | DEBUG |   Skipping internal USB Composite Device (no VID/PID or external marker): USB Composite Device
+2025-10-29 18:42:19,314 | DEBUG |   Skipping internal hardware: Microsoft Hyper-V Virtualization Infrastructure Driver
+2025-10-29 18:42:19,321 | DEBUG |   Skipping internal hardware: Intel(R) Wireless Bluetooth(R)
+2025-10-29 18:42:19,336 | DEBUG |   Skipping internal hardware: Composite Bus Enumerator
+2025-10-29 18:42:19,341 | DEBUG |   Skipping internal hardware: Microsoft Virtual Drive Enumerator
+2025-10-29 18:42:19,346 | DEBUG |   Skipping internal hardware: Microsoft Storage Spaces Controller
+2025-10-29 18:42:19,358 | DEBUG |   Device has VID/PID but not explicitly external: HID-compliant vendor-defined device
+2025-10-29 18:42:19,367 | DEBUG |   Skipping internal hardware: HID-compliant consumer control device
+2025-10-29 18:42:19,371 | DEBUG |   Skipping internal hardware: USB Input Device
+2025-10-29 18:42:19,380 | DEBUG |   Skipping internal hardware: Microsoft Kernel Debug Network Adapter
+2025-10-29 18:42:19,384 | DEBUG |   Skipping built-in keyboard/mouse: HID Keyboard Device
+2025-10-29 18:42:19,388 | DEBUG |   Skipping internal hardware: USB Input Device
+2025-10-29 18:42:19,390 | DEBUG |   Skipping internal hardware: USB Root Hub (USB 3.0)
+2025-10-29 18:42:19,401 | DEBUG |   ✓ External device (USB storage): A059
+2025-10-29 18:42:19,404 | DEBUG |   ✓ Detected: A059 (VID:18D1, PID:4EE1)
+2025-10-29 18:42:19,408 | DEBUG |   Skipping internal USB Composite Device (no VID/PID or external marker): USB Composite Device
+2025-10-29 18:42:19,412 | DEBUG |   Device has VID/PID but not explicitly external: HID-compliant vendor-defined device
+2025-10-29 18:42:19,418 | DEBUG |   Skipping built-in keyboard/mouse: HID-compliant mouse
+2025-10-29 18:42:19,425 | DEBUG |   Skipping built-in keyboard/mouse: HID Keyboard Device
+2025-10-29 18:42:19,429 | DEBUG |   Skipping internal hardware: HID-compliant consumer control device
+2025-10-29 18:42:19,432 | DEBUG |   Skipping internal hardware: Intel(R) SPI (flash) Controller - 7A24
+2025-10-29 18:42:19,445 | DEBUG |   Skipping internal hardware: Microsoft Bluetooth Enumerator
+2025-10-29 18:42:19,449 | DEBUG |   Skipping internal hardware: USB Input Device
+2025-10-29 18:42:19,454 | DEBUG |   Skipping internal hardware: Facial Recognition (Windows Hello) Software Device
+2025-10-29 18:42:19,472 | DEBUG |   Skipping internal hardware: UMBus Root Bus Enumerator
+2025-10-29 18:42:19,489 | DEBUG |   Skipping internal hardware: Charge Arbitration Driver
+2025-10-29 18:42:19,529 | DEBUG |   Skipping internal hardware: Microsoft Device Association Root Enumerator
+2025-10-29 18:42:19,536 | DEBUG |   Skipping internal hardware: ACPI x64-based PC
+2025-10-29 18:42:19,554 | DEBUG |   Skipping internal hardware: Intel(R) USB 3.20 eXtensible Host Controller - 1.20 (Microsoft)
+2025-10-29 18:42:19,584 | DEBUG |   Skipping internal hardware: HID-compliant consumer control device
+2025-10-29 18:42:19,640 | DEBUG |   Skipping internal hardware: Microsoft Hyper-V PCI Server
+2025-10-29 18:42:19,646 | DEBUG |   Skipping internal hardware: Intel(R) USB 3.10 eXtensible Host Controller - 1.10 (Microsoft)
+2025-10-29 18:42:19,669 | DEBUG |   Skipping internal hardware: HID-compliant consumer control device
+2025-10-29 18:42:19,677 | DEBUG |   Skipping internal hardware: 
+2025-10-29 18:42:19,687 | DEBUG |   Skipping internal hardware: Microsoft Basic Render Driver
+2025-10-29 18:42:19,700 | DEBUG |   Skipping internal hardware: HID-compliant consumer control device
+2025-10-29 18:42:19,726 | DEBUG |   Skipping built-in keyboard/mouse: SteelSeries Gaming Keyboard
+2025-10-29 18:42:19,746 | DEBUG |   Skipping internal hardware: APP Mode
+2025-10-29 18:42:19,768 | DEBUG |   Skipping internal hardware: FHD IR Camera
+2025-10-29 18:42:19,803 | DEBUG |   Skipping internal hardware: Microsoft Hyper-V Virtual Disk Server
+2025-10-29 18:42:19,811 | DEBUG |   Skipping internal hardware: FHD Camera
+2025-10-29 18:42:19,819 | DEBUG |   Skipping internal hardware: NVIDIA Virtual Audio Device (Wave Extensible) (WDM)
+2025-10-29 18:42:19,823 | DEBUG |   Skipping internal hardware: NvModuleTracker Device
+2025-10-29 18:42:19,826 | DEBUG |   Skipping internal hardware: NVVHCI Enumerator
+2025-10-29 18:42:19,833 | DEBUG |   Skipping internal hardware: Intel(R) Optane(TM) Memory and Storage Management Component
+2025-10-29 18:42:19,850 | DEBUG |   Skipping internal hardware: HID-compliant consumer control device
+2025-10-29 18:42:19,853 | DEBUG |   Skipping internal hardware: ISWD Micron_2400_MTFDKBA1T0QFM
+2025-10-29 18:42:19,862 | DEBUG |   Skipping internal hardware: Portable Device Control device
+2025-10-29 18:42:19,878 | DEBUG |   Skipping built-in keyboard/mouse: SteelSeries PS/2 Keyboard
